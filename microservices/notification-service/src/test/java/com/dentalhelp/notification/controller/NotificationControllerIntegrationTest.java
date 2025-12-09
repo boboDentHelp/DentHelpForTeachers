@@ -1,0 +1,52 @@
+package com.dentalhelp.notification.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+/**
+ * Integration tests for NotificationController
+ * These tests verify that the REST endpoints are wired correctly
+ */
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+class NotificationControllerIntegrationTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private JavaMailSender javaMailSender;
+
+    @MockBean
+    private RabbitTemplate rabbitTemplate;
+
+    @Test
+    void testContextLoads() {
+        // Basic test that application context loads successfully
+        assertNotNull(mockMvc);
+        assertNotNull(objectMapper);
+    }
+
+    @Test
+    void testHealthEndpoint() throws Exception {
+        // Test actuator health endpoint
+        mockMvc.perform(get("/actuator/health"))
+                .andExpect(status().isOk());
+    }
+}

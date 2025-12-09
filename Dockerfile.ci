@@ -1,0 +1,27 @@
+# =============================================================================
+# CI-Optimized Dockerfile - Uses pre-built JAR (no Maven build needed)
+# Usage: docker build -f Dockerfile.ci --build-arg SERVICE=auth-service .
+# =============================================================================
+
+FROM eclipse-temurin:17-jre-alpine
+
+RUN apk add --no-cache curl
+
+WORKDIR /app
+
+# Build args
+ARG SERVICE
+ARG BUILD_DATE
+ARG VCS_REF
+ARG PORT=8080
+
+LABEL org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.revision="${VCS_REF}" \
+      org.opencontainers.image.title="${SERVICE}"
+
+# Copy the pre-built JAR
+COPY microservices/${SERVICE}/target/*.jar app.jar
+
+EXPOSE ${PORT}
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -1,0 +1,22 @@
+.breadcrumb ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 5px;
+}
+
+.breadcrumb li {
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #ec7659;
+}
+
+.breadcrumb span {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Dark mode styles */

@@ -1,0 +1,7 @@
+# k6 test results and outputs
+results/
+*.json
+*.log
+
+# Don't ignore the scripts directory
+!scripts/

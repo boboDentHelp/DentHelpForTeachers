@@ -1,0 +1,8 @@
+# Force Unix line endings for shell scripts
+*.sh text eol=lf
+
+# Force Unix line endings for SQL scripts
+*.sql text eol=lf
+
+# Default behavior for all other files
+* text=auto

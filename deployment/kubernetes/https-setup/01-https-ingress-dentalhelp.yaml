@@ -1,0 +1,112 @@
+# =============================================================================
+# HTTPS INGRESS FOR DENTALHELP API GATEWAY
+# Uses NGINX Ingress + Let's Encrypt for FREE SSL
+# =============================================================================
+
+---
+# Ingress for API Gateway with HTTPS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dentalhelp-https-ingress
+  namespace: dentalhelp
+  annotations:
+    # Use NGINX ingress controller
+    kubernetes.io/ingress.class: nginx
+
+    # Force HTTPS redirect (HTTP -> HTTPS)
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+    # cert-manager will automatically provision SSL certificate
+    # Start with staging to avoid rate limits, then switch to prod
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # After testing, change to: cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+    # Timeouts and limits
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+
+    # CORS (for frontend access)
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type"
+
+  labels:
+    app: dentalhelp
+    component: api-gateway
+
+spec:
+  tls:
+    - hosts:
+        # IMPORTANT: Replace this with your actual domain
+        # For testing without domain, use: dentalhelp.<LOADBALANCER-IP>.nip.io
+        # Example: dentalhelp.34.55.12.229.nip.io
+        - dentalhelp.136.112.216.160.nip.io
+      secretName: dentalhelp-tls  # cert-manager will create this
+
+  rules:
+    - host: dentalhelp.136.112.216.160.nip.io  # Same as above
+      http:
+        paths:
+          # Route all traffic to API Gateway
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
+
+---
+# Optional: Ingress for Eureka Dashboard (internal monitoring)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eureka-https-ingress
+  namespace: dentalhelp
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+    # Basic auth for Eureka (security)
+    # Create with: htpasswd -nb admin yourpassword | base64
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: eureka-basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: "Eureka Dashboard - Authentication Required"
+
+spec:
+  tls:
+    - hosts:
+        - eureka.136.112.216.160.nip.io
+      secretName: eureka-tls
+
+  rules:
+    - host: eureka.136.112.216.160.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: eureka-server
+                port:
+                  number: 8761
+
+---
+# Basic auth secret for Eureka (optional)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: eureka-basic-auth
+  namespace: dentalhelp
+type: Opaque
+data:
+  # Default: admin / admin123
+  # Generated with: htpasswd -nb admin admin123 | base64 -w 0
+  # CHANGE THIS in production!
+  auth: YWRtaW46JGFwcjEkSGVzOC9jWkIkL04xU0hqVUxaLllhSy9FSkF2dGlPLgo=

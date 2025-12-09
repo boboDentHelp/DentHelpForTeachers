@@ -1,0 +1,58 @@
+name: Load Testing (Manual - Cost Optimized)
+
+# ⚠️  COST OPTIMIZATION: This workflow is MANUAL ONLY to avoid cloud costs
+# Run only when needed before releases or when investigating performance
+
+on:
+  workflow_dispatch:  # Manual trigger ONLY
+    inputs:
+      test_type:
+        description: 'Test type'
+        required: true
+        type: choice
+        options:
+          - load
+          - stress
+          - spike
+        default: 'load'
+
+jobs:
+  load-test:
+    name: Run ${{ github.event.inputs.test_type }} Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start services
+        run: |
+          cat > .env << EOF
+          MAIL_USERNAME=test@example.com
+          MAIL_PASSWORD=testpassword
+          AZURE_STORAGE_CONNECTION_STRING=test
+          AZURE_STORAGE_CONTAINER_NAME=xrays
+          EOF
+          docker-compose up -d rabbitmq eureka-server api-gateway auth-service
+          sleep 75
+
+      - name: Run k6 test
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: tests/load/${{ github.event.inputs.test_type }}-test.js
+          flags: --out json=results.json
+        env:
+          TARGET_URL: http://localhost:8080
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.inputs.test_type }}-test-results
+          path: results.json
+          retention-days: 90
+
+      - name: Cleanup
+        if: always()
+        run: docker-compose down -v

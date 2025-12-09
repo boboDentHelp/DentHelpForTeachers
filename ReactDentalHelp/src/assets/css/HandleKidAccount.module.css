@@ -1,0 +1,248 @@
+.page{
+    background-color: #e6f7ff;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.page_content{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-evenly;
+}
+
+.left_side{
+    border: 1px solid hsl(189, 78%, 58%);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(101, 196, 149, 0.42);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width:27%;
+}
+
+.right_side{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    border: 1px solid hsl(189, 78%, 58%);
+    box-shadow: 5px 5px 5px rgba(101, 196, 149, 0.42);
+    border-radius: 10px;
+    background-color: white;
+}
+
+
+.title{
+    color: #0b1d3a;
+}
+
+.text1{
+    color: #34BDA5;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.text2{
+    color: #ec7659;
+}
+
+.img{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    max-height: 180px;
+    width: auto;
+}
+
+.add-new-kid-btn{
+    padding: 10px 20px;
+    background-color: #283b53;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+
+.kidCard {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+
+.kid-details {
+    background-color: #fff;
+    padding: 20px;
+    margin-right: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+    flex-grow: 1;
+}
+
+.kidsList {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+    min-width: 15%;
+}
+
+.tabButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.tabButton {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px;
+}
+
+.tabButton:hover, .tabButton.active {
+    background-color: #ddd;
+}
+
+.tabButton:hover, .tabButton.active {
+    background-color: #ddd;
+}
+
+/* Tab content */
+.tabContent {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.selectedPatient {
+    border: 2px solid #007bff; /* Schimbă această culoare pentru evidențiere */
+    background-color: #e6f7ff; /* Culoare de fundal pentru pacientul selectat */
+}
+
+
+.activeTab {
+    background-color: #16336e; /* Culoare de fundal pentru tab-ul selectat */
+    color: white; /* Culoarea textului pentru tab-ul selectat */
+}
+
+.kidsTitle{
+    color: #283b53;
+    text-align: center;
+}
+.addKidT{
+    color: #283b53;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: bold;
+
+}
+
+.selectKidT{
+    color: #283b53;
+}
+
+
+.box{
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+
+.addKidBtn{
+    background-color: #283b53;
+    color: #e6f7ff;
+}
+.addKidBtn:hover{
+    background-color: #ffef6b;
+    color: #283b53;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+.selectKidP{
+    text-align: center;
+}
+
+@media(max-width: 1300px) {
+    .img{
+        max-width: 150px;
+    }
+
+    .page_content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .left_side{
+        width: 80%;
+    }
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.actionButton{
+    margin-bottom: 10px;
+}
+.changeRolImg{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* Dark mode styles */

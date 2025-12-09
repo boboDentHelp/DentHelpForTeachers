@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dentalhelp-config
+  namespace: dentalhelp
+data:
+  # Service Discovery
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka-server:8761/eureka/"
+  EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+
+  # RabbitMQ
+  RABBITMQ_HOST: "rabbitmq"
+  RABBITMQ_PORT: "5672"
+
+  # Redis
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+
+  # Database hosts (services)
+  AUTH_DB_HOST: "mysql-auth"
+  PATIENT_DB_HOST: "mysql-patient"
+  APPOINTMENT_DB_HOST: "mysql-appointment"
+  DENTAL_RECORDS_DB_HOST: "mysql-dental-records"
+  XRAY_DB_HOST: "mysql-xray"
+  TREATMENT_DB_HOST: "mysql-treatment"
+  NOTIFICATION_DB_HOST: "mysql-notification"
+
+  # Spring profiles
+  SPRING_PROFILES_ACTIVE: "kubernetes"
+
+  # JVM options for containers
+  JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:+UseG1GC"

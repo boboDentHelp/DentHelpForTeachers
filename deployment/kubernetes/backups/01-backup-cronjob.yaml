@@ -1,0 +1,152 @@
+# =============================================================================
+# AUTOMATED DATABASE BACKUP CRONJOB
+# Runs daily at 2 AM, keeps 7 days of backups
+# FREE solution using mysqldump
+# =============================================================================
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mysql-backup
+  namespace: dentalhelp
+  labels:
+    app: database-backup
+spec:
+  # Run daily at 2 AM UTC
+  schedule: "0 2 * * *"
+
+  # Keep last 3 successful jobs for debugging
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: database-backup
+        spec:
+          restartPolicy: OnFailure
+
+          containers:
+            - name: mysql-backup
+              image: mysql:8.0
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  # Backup script
+                  echo "==================================="
+                  echo "DentalHelp Database Backup"
+                  echo "Started: $(date)"
+                  echo "==================================="
+
+                  # Create backup directory with date
+                  BACKUP_DATE=$(date +%Y%m%d-%H%M%S)
+                  BACKUP_DIR="/backup/$BACKUP_DATE"
+                  mkdir -p $BACKUP_DIR
+
+                  # List of databases to backup
+                  DATABASES=(
+                    "auth_db"
+                    "patient_db"
+                    "appointment_db"
+                    "dental_records_db"
+                    "xray_db"
+                    "treatment_db"
+                    "notification_db"
+                  )
+
+                  # Backup each database
+                  BACKUP_COUNT=0
+                  FAILED_COUNT=0
+
+                  for db in "${DATABASES[@]}"; do
+                    echo "Backing up $db..."
+
+                    # Try to backup database
+                    if mysqldump -h mysql -u root -p$MYSQL_ROOT_PASSWORD \
+                      --single-transaction \
+                      --quick \
+                      --lock-tables=false \
+                      $db > $BACKUP_DIR/${db}.sql 2>/dev/null; then
+
+                      # Compress backup
+                      gzip $BACKUP_DIR/${db}.sql
+
+                      # Calculate size
+                      SIZE=$(du -h $BACKUP_DIR/${db}.sql.gz | cut -f1)
+                      echo "✓ $db backed up successfully ($SIZE)"
+                      ((BACKUP_COUNT++))
+                    else
+                      echo "✗ Failed to backup $db (database might not exist yet)"
+                      ((FAILED_COUNT++))
+                    fi
+                  done
+
+                  # Create backup manifest
+                  cat > $BACKUP_DIR/manifest.txt <<EOF
+                  DentalHelp Database Backup Manifest
+                  ====================================
+                  Backup Date: $BACKUP_DATE
+                  Total Databases: ${#DATABASES[@]}
+                  Successful Backups: $BACKUP_COUNT
+                  Failed Backups: $FAILED_COUNT
+                  Retention: 7 days
+
+                  Databases Backed Up:
+                  EOF
+
+                  # List backup files
+                  ls -lh $BACKUP_DIR/*.sql.gz >> $BACKUP_DIR/manifest.txt 2>/dev/null || true
+
+                  # Delete backups older than 7 days
+                  echo ""
+                  echo "Cleaning up old backups (older than 7 days)..."
+                  DELETED_COUNT=$(find /backup -maxdepth 1 -type d -mtime +7 -exec rm -rf {} \; -print | wc -l)
+                  echo "Deleted $DELETED_COUNT old backup(s)"
+
+                  # Summary
+                  echo ""
+                  echo "==================================="
+                  echo "Backup Summary:"
+                  echo "  Databases backed up: $BACKUP_COUNT"
+                  echo "  Failed backups: $FAILED_COUNT"
+                  echo "  Backup location: $BACKUP_DIR"
+                  echo "  Total backup size: $(du -sh $BACKUP_DIR | cut -f1)"
+                  echo "  Old backups deleted: $DELETED_COUNT"
+                  echo "Completed: $(date)"
+                  echo "==================================="
+
+                  # Exit with error if all backups failed
+                  if [ $BACKUP_COUNT -eq 0 ]; then
+                    echo "ERROR: All backups failed!"
+                    exit 1
+                  fi
+
+                  echo "Backup completed successfully!"
+                  exit 0
+
+              env:
+                - name: MYSQL_ROOT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mysql-secret
+                      key: root-password
+
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backup
+
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "512Mi"
+                  cpu: "500m"
+
+          volumes:
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: backup-pvc

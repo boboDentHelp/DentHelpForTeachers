@@ -1,0 +1,75 @@
+.page {
+    background-color: rgba(224, 247, 250, 0.39);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    gap: 2rem;
+}
+
+.page_content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.textContent {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 50%;
+}
+
+.kidImg {
+    max-height: 300px;
+    width: auto;
+    max-width: 50%;
+    object-fit: cover;
+}
+
+.title {
+    font-size: 27px;
+    color: #16336e;
+    margin: 0; /* Elimină marginile implicite */
+}
+
+.content {
+    font-size: 19px;
+    text-align: justify;
+    color: #34bda5;
+}
+
+.finalWord {
+    color: #fc9077;
+}
+
+.addKidBtn {
+    padding: 10px 20px;
+    background-color: #283b53;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.addKidBtn:hover {
+    font-size: 18px;
+    transition: font-size 0.2s ease; /* Adaugă o tranziție pentru hover */
+}
+
+@media(max-width: 1000px){
+    .page_content{
+        flex-direction: column;
+    }
+
+    .textContent{
+        max-width: 80%;
+    }
+}
+
+/* Dark mode styles */

@@ -1,0 +1,12 @@
+.button{
+
+    background-color: #0b1d3a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dark mode styles */
+/* Button is already dark themed, no changes needed */

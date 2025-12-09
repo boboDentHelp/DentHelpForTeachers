@@ -1,0 +1,36 @@
+# =============================================================================
+# UPDATED API GATEWAY SERVICE - FOR USE WITH INGRESS
+# Change from LoadBalancer to ClusterIP since NGINX handles external traffic
+# =============================================================================
+
+# IMPORTANT: This replaces the service in 21-api-gateway-production.yaml
+# The Deployment and HPA remain the same, only the Service changes
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: dentalhelp
+  labels:
+    app: api-gateway
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
+    prometheus.io/path: "/actuator/prometheus"
+spec:
+  selector:
+    app: api-gateway
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  type: ClusterIP  # Changed from LoadBalancer to ClusterIP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+
+---
+# Note: The Deployment and HPA from 21-api-gateway-production.yaml remain unchanged
+# Only apply this Service to replace the LoadBalancer service

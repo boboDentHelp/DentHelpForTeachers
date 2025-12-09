@@ -1,0 +1,40 @@
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.dataView {
+    background-color: #f1f3f5;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.infoMessage{
+    display: flex;
+    align-items: center;
+    background-color: #e0f7fa;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.arrow{
+    height: 14px;
+    width: auto;
+}
+
+.buttonTreatmentSheet{
+    background-color: transparent;
+    margin: 0.3rem;
+    padding: 0;
+}
+
+.buttonTreatmentSheet:hover{
+    background-color: transparent;
+}
+
+/* Dark mode styles */

@@ -1,0 +1,16 @@
+:root {
+}
+
+
+.App{
+    margin: 0;
+}
+body {
+    margin: 0;
+}
+
+svg {
+    display: block;
+    margin: auto;
+    background-color: #f9f9f9;
+}

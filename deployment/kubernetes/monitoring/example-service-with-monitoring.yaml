@@ -1,0 +1,202 @@
+# =============================================================================
+# EXAMPLE: Microservice Deployment with Prometheus Monitoring
+# =============================================================================
+# This is an example showing how to configure your microservices
+# to be automatically discovered and scraped by Prometheus
+# =============================================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-service
+  namespace: dentalhelp
+  labels:
+    app: example-service
+    tier: backend
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: example-service
+  template:
+    metadata:
+      labels:
+        app: example-service
+        tier: backend
+        version: v1
+      # IMPORTANT: These annotations tell Prometheus to scrape this service
+      annotations:
+        prometheus.io/scrape: "true"      # Enable Prometheus scraping
+        prometheus.io/port: "8080"        # Port where metrics are exposed
+        prometheus.io/path: "/actuator/prometheus"  # Metrics endpoint path
+    spec:
+      containers:
+        - name: example-service
+          image: your-registry/example-service:latest
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # Spring Boot Actuator configuration
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info,prometheus,metrics"
+            - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED
+              value: "true"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+  namespace: dentalhelp
+  labels:
+    app: example-service
+    tier: backend
+  # These annotations are for service-based discovery (optional)
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
+    prometheus.io/path: "/actuator/prometheus"
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: example-service
+
+---
+# =============================================================================
+# Spring Boot Configuration for Prometheus Metrics
+# =============================================================================
+# Add this to your application.yml or application.properties
+#
+# application.yml:
+# management:
+#   endpoints:
+#     web:
+#       exposure:
+#         include: health,info,prometheus,metrics
+#       base-path: /actuator
+#   metrics:
+#     export:
+#       prometheus:
+#         enabled: true
+#     tags:
+#       application: ${spring.application.name}
+#       environment: production
+#   endpoint:
+#     health:
+#       show-details: always
+#       probes:
+#         enabled: true
+#
+# =============================================================================
+# Maven Dependencies (pom.xml)
+# =============================================================================
+# <dependencies>
+#     <!-- Spring Boot Actuator -->
+#     <dependency>
+#         <groupId>org.springframework.boot</groupId>
+#         <artifactId>spring-boot-starter-actuator</artifactId>
+#     </dependency>
+#
+#     <!-- Micrometer Prometheus Registry -->
+#     <dependency>
+#         <groupId>io.micrometer</groupId>
+#         <artifactId>micrometer-registry-prometheus</artifactId>
+#     </dependency>
+# </dependencies>
+# =============================================================================
+
+# =============================================================================
+# Verification Steps
+# =============================================================================
+# 1. Deploy this service to your cluster:
+#    kubectl apply -f example-service-with-monitoring.yaml
+#
+# 2. Check if metrics endpoint is accessible:
+#    kubectl port-forward -n dentalhelp svc/example-service 8080:8080
+#    curl http://localhost:8080/actuator/prometheus
+#
+# 3. Check Prometheus targets:
+#    kubectl port-forward -n monitoring svc/prometheus 9090:9090
+#    Visit http://localhost:9090/targets
+#    Look for your service in the "kubernetes-pods" job
+#
+# 4. Query metrics in Prometheus:
+#    http://localhost:9090/graph
+#    Try query: http_server_requests_seconds_count{job="kubernetes-pods"}
+#
+# 5. View in Grafana:
+#    kubectl port-forward -n monitoring svc/grafana 3000:3000
+#    Visit http://localhost:3000
+#    Create a dashboard with your service metrics
+# =============================================================================
+
+# =============================================================================
+# Common Metrics Exposed by Spring Boot
+# =============================================================================
+# JVM Metrics:
+# - jvm_memory_used_bytes
+# - jvm_memory_max_bytes
+# - jvm_gc_pause_seconds
+# - jvm_threads_live
+#
+# HTTP Metrics:
+# - http_server_requests_seconds_count
+# - http_server_requests_seconds_sum
+# - http_server_requests_seconds_max
+#
+# Database Metrics:
+# - hikaricp_connections_active
+# - hikaricp_connections_idle
+# - hikaricp_connections_pending
+#
+# System Metrics:
+# - process_cpu_usage
+# - process_uptime_seconds
+# - system_cpu_usage
+# =============================================================================
+
+# =============================================================================
+# PromQL Query Examples
+# =============================================================================
+# Request rate:
+# rate(http_server_requests_seconds_count[5m])
+#
+# Average response time:
+# rate(http_server_requests_seconds_sum[5m]) / rate(http_server_requests_seconds_count[5m])
+#
+# Memory usage:
+# jvm_memory_used_bytes{area="heap"}
+#
+# CPU usage:
+# rate(process_cpu_seconds_total[5m])
+#
+# Active database connections:
+# hikaricp_connections_active
+# =============================================================================

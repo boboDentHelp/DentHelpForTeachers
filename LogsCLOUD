@@ -1,0 +1,572 @@
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "================================================================" -ForegroundColor Cyan
+================================================================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $totalNodes = (kubectl get nodes --no-headers | Measure-Object -Line).Lines
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $totalPods = (kubectl get pods -n dentalhelp --no-headers | Measure-Object -Line).Lines
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $totalServices = (kubectl get svc -n dentalhelp --no-headers | Measure-Object -Line).Lines
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Cloud Provider: Google Cloud Platform (GCP)" -ForegroundColor White
+Cloud Provider: Google Cloud Platform (GCP)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Service: Google Kubernetes Engine (GKE)" -ForegroundColor White
+Service: Google Kubernetes Engine (GKE)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Region: us-central1-a" -ForegroundColor White
+Region: us-central1-a
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Cluster Name: dentalhelp-cluster" -ForegroundColor White
+Cluster Name: dentalhelp-cluster
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Total Nodes: $totalNodes" -ForegroundColor White
+Total Nodes: 4
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Total Pods: $totalPods" -ForegroundColor White
+Total Pods: 10
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Total Services: $totalServices" -ForegroundColor White
+Total Services: 10
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "HTTPS Enabled: YES (Let's Encrypt)" -ForegroundColor Green
+HTTPS Enabled: YES (Let's Encrypt)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Auto-Scaling: YES (Cluster Autoscaler)" -ForegroundColor Green
+Auto-Scaling: YES (Cluster Autoscaler)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Load Balancer: NGINX Ingress Controller" -ForegroundColor White
+Load Balancer: NGINX Ingress Controller
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Service Discovery: Netflix Eureka" -ForegroundColor White
+Service Discovery: Netflix Eureka
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Message Queue: RabbitMQ" -ForegroundColor White
+Message Queue: RabbitMQ
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Caching: Redis" -ForegroundColor White
+Caching: Redis
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Databases: MySQL x3 (auth, patient, appointment)" -ForegroundColor White
+Databases: MySQL x3 (auth, patient, appointment)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "================================================================" -ForegroundColor Cyan
+================================================================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> # PowerShell script to show DentalHelp cloud deployment status on GKE
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "================================================================" -ForegroundColor Cyan
+================================================================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "  DENTALHELP CLOUD DEPLOYMENT STATUS - GKE" -ForegroundColor Cyan
+  DENTALHELP CLOUD DEPLOYMENT STATUS - GKE
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "================================================================" -ForegroundColor Cyan
+================================================================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "GOOGLE CLOUD PLATFORM (GCP) CONNECTION" -ForegroundColor Green
+GOOGLE CLOUD PLATFORM (GCP) CONNECTION
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "=======================================" -ForegroundColor Green
+=======================================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "1. GCP PROJECT & AUTHENTICATION" -ForegroundColor Yellow
+1. GCP PROJECT & AUTHENTICATION
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "--------------------------------" -ForegroundColor Yellow
+--------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> gcloud config get-value project 2>$null
+dentalhelp-demo
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if ($?) {
+>>     Write-Host "GCP Project: $(gcloud config get-value project 2>$null)" -ForegroundColor Green
+>>     Write-Host "GCP Account: $(gcloud config get-value account 2>$null)" -ForegroundColor Green
+>>     Write-Host "GCP Region: $(gcloud config get-value compute/region 2>$null)" -ForegroundColor Green
+>>     Write-Host "GCP Zone: $(gcloud config get-value compute/zone 2>$null)" -ForegroundColor Green
+>> } else {
+>>     Write-Host "gcloud CLI not installed or not authenticated" -ForegroundColor Red
+>>     Write-Host "Install: https://cloud.google.com/sdk/docs/install" -ForegroundColor Yellow
+>> }
+GCP Project: dentalhelp-demo
+GCP Account: bcalinescu79@gmail.com
+GCP Region:
+GCP Zone:
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "2. GKE CLUSTER DETAILS (Google Kubernetes Engine)" -ForegroundColor Yellow
+2. GKE CLUSTER DETAILS (Google Kubernetes Engine)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "--------------------------------------------------" -ForegroundColor Yellow
+--------------------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> gcloud container clusters list 2>$null
+NAME                LOCATION       MASTER_VERSION      MASTER_IP     MACHINE_TYPE  NODE_VERSION        NUM_NODES  STATUS   STACK_TYPE
+dentalhelp-cluster  us-central1-a  1.33.5-gke.1201000  34.63.31.211  e2-medium     1.33.5-gke.1201000  4          RUNNING  IPV4
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if (-not $?) {
+>>     Write-Host "Unable to list GKE clusters (requires gcloud CLI)" -ForegroundColor Gray
+>> }
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "3. KUBERNETES CLUSTER INFORMATION" -ForegroundColor Yellow
+3. KUBERNETES CLUSTER INFORMATION
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "----------------------------------" -ForegroundColor Yellow
+----------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl cluster-info
+Kubernetes control plane is running at https://34.63.31.211
+GLBCDefaultBackend is running at https://34.63.31.211/api/v1/namespaces/kube-system/services/default-http-backend:http/proxy
+KubeDNS is running at https://34.63.31.211/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server is running at https://34.63.31.211/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "4. VERIFY RUNNING ON GOOGLE CLOUD" -ForegroundColor Yellow
+4. VERIFY RUNNING ON GOOGLE CLOUD
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "----------------------------------" -ForegroundColor Yellow
+----------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Checking if nodes are Google Compute Engine (GCE) instances..." -ForegroundColor Gray
+Checking if nodes are Google Compute Engine (GCE) instances...
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get nodes -o wide | Select-String "gke-"
+
+gke-dentalhelp-cluster-default-pool-cfe27372-c39c   Ready    <none>   7h5m   v1.33.5-gke.1201000   10.128.0.13
+35.225.94.129    Container-Optimized OS from Google   6.6.105+         containerd://2.0.6
+gke-dentalhelp-cluster-default-pool-cfe27372-grx2   Ready    <none>   7h5m   v1.33.5-gke.1201000   10.128.0.12
+34.31.22.104     Container-Optimized OS from Google   6.6.105+         containerd://2.0.6
+gke-dentalhelp-cluster-default-pool-cfe27372-hw5r   Ready    <none>   7h5m   v1.33.5-gke.1201000   10.128.0.11
+34.122.126.188   Container-Optimized OS from Google   6.6.105+         containerd://2.0.6
+gke-dentalhelp-cluster-default-pool-cfe27372-sbj7   Ready    <none>   7h5m   v1.33.5-gke.1201000   10.128.0.10
+34.61.64.218     Container-Optimized OS from Google   6.6.105+         containerd://2.0.6
+
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if ($?) {
+>>     Write-Host "CONFIRMED: Nodes are GKE-managed GCE instances" -ForegroundColor Green
+>> } else {
+>>     Write-Host "Note: Node naming pattern doesn't match GKE" -ForegroundColor Yellow
+>> }
+CONFIRMED: Nodes are GKE-managed GCE instances
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "KUBERNETES RESOURCES ON GKE" -ForegroundColor Green
+KUBERNETES RESOURCES ON GKE
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "============================" -ForegroundColor Green
+============================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "5. NODES (Google Compute Engine VMs)" -ForegroundColor Yellow
+5. NODES (Google Compute Engine VMs)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "-------------------------------------" -ForegroundColor Yellow
+-------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get nodes -o wide
+NAME                                                STATUS   ROLES    AGE    VERSION               INTERNAL-IP   EXTERNAL-IP      OS-IMAGE                             KERNEL-VERSION   CONTAINER-RUNTIME
+gke-dentalhelp-cluster-default-pool-cfe27372-c39c   Ready    <none>   7h5m   v1.33.5-gke.1201000   10.128.0.13   35.225.94.129    Container-Optimized OS from Google   6.6.105+         containerd://2.0.6
+gke-dentalhelp-cluster-default-pool-cfe27372-grx2   Ready    <none>   7h5m   v1.33.5-gke.1201000   10.128.0.12   34.31.22.104     Container-Optimized OS from Google   6.6.105+         containerd://2.0.6
+gke-dentalhelp-cluster-default-pool-cfe27372-hw5r   Ready    <none>   7h5m   v1.33.5-gke.1201000   10.128.0.11   34.122.126.188   Container-Optimized OS from Google   6.6.105+         containerd://2.0.6
+gke-dentalhelp-cluster-default-pool-cfe27372-sbj7   Ready    <none>   7h5m   v1.33.5-gke.1201000   10.128.0.10   34.61.64.218     Container-Optimized OS from Google   6.6.105+         containerd://2.0.6
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Node Provider Details:" -ForegroundColor Gray
+Node Provider Details:
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get nodes -o json | ConvertFrom-Json | Select-Object -ExpandProperty items | ForEach-Object {
+>>     Write-Host "  - Node: $($_.metadata.name)" -ForegroundColor Cyan
+>>     Write-Host "    Provider: $($_.spec.providerID)" -ForegroundColor Gray
+>>     Write-Host "    Zone: $($_.metadata.labels.'topology.kubernetes.io/zone')" -ForegroundColor Gray
+>>     Write-Host "    Instance Type: $($_.metadata.labels.'node.kubernetes.io/instance-type')" -ForegroundColor Gray
+>> }
+  - Node: gke-dentalhelp-cluster-default-pool-cfe27372-c39c
+    Provider: gce://dentalhelp-demo/us-central1-a/gke-dentalhelp-cluster-default-pool-cfe27372-c39c
+    Zone: us-central1-a
+    Instance Type: e2-medium
+  - Node: gke-dentalhelp-cluster-default-pool-cfe27372-grx2
+    Provider: gce://dentalhelp-demo/us-central1-a/gke-dentalhelp-cluster-default-pool-cfe27372-grx2
+    Zone: us-central1-a
+    Instance Type: e2-medium
+  - Node: gke-dentalhelp-cluster-default-pool-cfe27372-hw5r
+    Provider: gce://dentalhelp-demo/us-central1-a/gke-dentalhelp-cluster-default-pool-cfe27372-hw5r
+    Zone: us-central1-a
+    Instance Type: e2-medium
+  - Node: gke-dentalhelp-cluster-default-pool-cfe27372-sbj7
+    Provider: gce://dentalhelp-demo/us-central1-a/gke-dentalhelp-cluster-default-pool-cfe27372-sbj7
+    Zone: us-central1-a
+    Instance Type: e2-medium
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "6. NAMESPACES" -ForegroundColor Yellow
+6. NAMESPACES
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "-------------" -ForegroundColor Yellow
+-------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get namespaces
+NAME                          STATUS   AGE
+cert-manager                  Active   6h16m
+default                       Active   7h8m
+dentalhelp                    Active   6h58m
+gke-managed-cim               Active   7h6m
+gke-managed-system            Active   7h6m
+gke-managed-volumepopulator   Active   7h6m
+gmp-public                    Active   7h6m
+gmp-system                    Active   7h6m
+ingress-nginx                 Active   6h14m
+kube-node-lease               Active   7h8m
+kube-public                   Active   7h8m
+kube-system                   Active   7h8m
+monitoring                    Active   4h59m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "7. ALL RUNNING PODS (Microservices)" -ForegroundColor Yellow
+7. ALL RUNNING PODS (Microservices)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "------------------------------------" -ForegroundColor Yellow
+------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get pods -n dentalhelp -o wide
+NAME                                   READY   STATUS    RESTARTS   AGE     IP            NODE                                                NOMINATED NODE   READINESS GATES
+api-gateway-85b578cd94-ltttm           1/1     Running   0          6h52m   10.108.1.6    gke-dentalhelp-cluster-default-pool-cfe27372-hw5r   <none>           <none>
+appointment-service-79f6b6fc96-qpg4d   1/1     Running   0          4h17m   10.108.3.10   gke-dentalhelp-cluster-default-pool-cfe27372-c39c   <none>           <none>
+auth-service-6f7cbdf858-pt6gb          1/1     Running   0          42m     10.108.2.11   gke-dentalhelp-cluster-default-pool-cfe27372-grx2   <none>           <none>
+eureka-server-798457fd97-8mw4m         1/1     Running   0          6h53m   10.108.3.6    gke-dentalhelp-cluster-default-pool-cfe27372-c39c   <none>           <none>
+mysql-appointment-0                    1/1     Running   0          6h54m   10.108.2.5    gke-dentalhelp-cluster-default-pool-cfe27372-grx2   <none>           <none>
+mysql-auth-0                           1/1     Running   0          6h54m   10.108.3.5    gke-dentalhelp-cluster-default-pool-cfe27372-c39c   <none>           <none>
+mysql-patient-0                        1/1     Running   0          6h54m   10.108.1.5    gke-dentalhelp-cluster-default-pool-cfe27372-hw5r   <none>           <none>
+patient-service-6f698f88bf-7srdc       1/1     Running   0          6h51m   10.108.0.13   gke-dentalhelp-cluster-default-pool-cfe27372-sbj7   <none>           <none>
+rabbitmq-777845b8cb-s6pfp              1/1     Running   0          140m    10.108.1.12   gke-dentalhelp-cluster-default-pool-cfe27372-hw5r   <none>           <none>
+redis-85d49cddb5-bcnqt                 1/1     Running   0          6h58m   10.108.3.4    gke-dentalhelp-cluster-default-pool-cfe27372-c39c   <none>           <none>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "8. SERVICES (Network endpoints)" -ForegroundColor Yellow
+8. SERVICES (Network endpoints)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "--------------------------------" -ForegroundColor Yellow
+--------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get services -n dentalhelp
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)              AGE
+api-gateway           ClusterIP   34.118.239.104   <none>        8080/TCP             6h52m
+appointment-service   ClusterIP   34.118.232.208   <none>        8083/TCP             6h51m
+auth-service          ClusterIP   34.118.225.77    <none>        8081/TCP             6h51m
+eureka-server         ClusterIP   34.118.235.18    <none>        8761/TCP             6h53m
+mysql-appointment     ClusterIP   None             <none>        3306/TCP             6h54m
+mysql-auth            ClusterIP   None             <none>        3306/TCP             6h54m
+mysql-patient         ClusterIP   None             <none>        3306/TCP             6h54m
+patient-service       ClusterIP   34.118.233.22    <none>        8082/TCP             6h51m
+rabbitmq              ClusterIP   34.118.239.139   <none>        5672/TCP,15672/TCP   6h58m
+redis                 ClusterIP   34.118.237.82    <none>        6379/TCP             6h58m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "9. INGRESS (GCP Load Balancer with HTTPS)" -ForegroundColor Yellow
+9. INGRESS (GCP Load Balancer with HTTPS)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "-------------------------------------------" -ForegroundColor Yellow
+-------------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get ingress -n dentalhelp
+NAME                       CLASS    HOSTS                               ADDRESS           PORTS     AGE
+dentalhelp-https-ingress   <none>   dentalhelp.136.112.216.160.nip.io   136.112.216.160   80, 443   5h45m
+eureka-https-ingress       <none>   eureka.136.112.216.160.nip.io       136.112.216.160   80, 443   5h53m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "LoadBalancer Details (Google Cloud):" -ForegroundColor Gray
+LoadBalancer Details (Google Cloud):
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $ingressIP = kubectl get ingress dentalhelp-https-ingress -n dentalhelp -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>$null
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if ($ingressIP) {
+>>     Write-Host "  External IP (GCP LoadBalancer): $ingressIP" -ForegroundColor Cyan
+>>     Write-Host "  HTTPS URL: https://dentalhelp.$ingressIP.nip.io" -ForegroundColor Green
+>>     Write-Host "  Managed by: NGINX Ingress Controller on GKE" -ForegroundColor Gray
+>> }
+  External IP (GCP LoadBalancer): 136.112.216.160
+  HTTPS URL: https://dentalhelp.136.112.216.160.nip.io
+  Managed by: NGINX Ingress Controller on GKE
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "10. PERSISTENT VOLUMES (Google Persistent Disk)" -ForegroundColor Yellow
+10. PERSISTENT VOLUMES (Google Persistent Disk)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "------------------------------------------------" -ForegroundColor Yellow
+------------------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get pvc -n dentalhelp
+NAME                             STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+mysql-appointment-pvc            Pending                                                                        standard-rwo   <unset>                 6h58m
+mysql-auth-pvc                   Pending                                                                        standard-rwo   <unset>                 6h58m
+mysql-data-mysql-appointment-0   Bound     pvc-1cc26a7a-570a-4071-9dd4-b2d7379db3d9   5Gi        RWO            standard-rwo   <unset>                 6h54m
+mysql-data-mysql-auth-0          Bound     pvc-f96aeaa8-3fe4-461c-9456-decf44cc74cb   5Gi        RWO            standard-rwo   <unset>                 6h54m
+mysql-data-mysql-patient-0       Bound     pvc-339f40fa-2d60-4c7e-97b1-78866c8fc70b   5Gi        RWO            standard-rwo   <unset>                 6h54m
+mysql-dental-records-pvc         Pending                                                                        standard-rwo   <unset>                 6h58m
+mysql-notification-pvc           Pending                                                                        standard-rwo   <unset>                 6h58m
+mysql-patient-pvc                Pending                                                                        standard-rwo   <unset>                 6h58m
+mysql-treatment-pvc              Pending                                                                        standard-rwo   <unset>                 6h58m
+mysql-xray-pvc                   Pending                                                                        standard-rwo   <unset>                 6h58m
+rabbitmq-pvc                     Bound     pvc-a577528c-d497-4ca1-9c31-ceb4bfdd5c82   2Gi        RWO            standard-rwo   <unset>                 6h58m
+redis-pvc                        Bound     pvc-76efb279-eb59-4aee-9bd3-fe0127f483e7   1Gi        RWO            standard-rwo   <unset>                 6h58m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "11. CERTIFICATES (Let's Encrypt SSL)" -ForegroundColor Yellow
+11. CERTIFICATES (Let's Encrypt SSL)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "-------------------------------------" -ForegroundColor Yellow
+-------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get certificates -n dentalhelp 2>$null
+NAME             READY   SECRET           AGE
+dentalhelp-tls   True    dentalhelp-tls   5h39m
+eureka-tls       True    eureka-tls       5h39m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if (-not $?) {
+>>     Write-Host "cert-manager not installed or no certificates" -ForegroundColor Gray
+>> }
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "12. DEPLOYMENTS (Scaling configuration)" -ForegroundColor Yellow
+12. DEPLOYMENTS (Scaling configuration)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "----------------------------------------" -ForegroundColor Yellow
+----------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get deployments -n dentalhelp
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+api-gateway           1/1     1            1           6h52m
+appointment-service   1/1     1            1           6h51m
+auth-service          1/1     1            1           6h51m
+eureka-server         1/1     1            1           6h53m
+patient-service       1/1     1            1           6h51m
+rabbitmq              1/1     1            1           6h58m
+redis                 1/1     1            1           6h58m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "13. REPLICA SETS (Pod management)" -ForegroundColor Yellow
+13. REPLICA SETS (Pod management)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "----------------------------------" -ForegroundColor Yellow
+----------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get replicasets -n dentalhelp
+NAME                             DESIRED   CURRENT   READY   AGE
+api-gateway-85b578cd94           1         1         1       6h52m
+appointment-service-6564fd65f9   0         0         0       6h51m
+appointment-service-79f6b6fc96   1         1         1       4h17m
+auth-service-546d4cf8f4          0         0         0       71m
+auth-service-6f7cbdf858          1         1         1       60m
+auth-service-77c66f9f5b          0         0         0       6h51m
+eureka-server-798457fd97         1         1         1       6h54m
+patient-service-6f698f88bf       1         1         1       6h51m
+rabbitmq-777845b8cb              1         1         1       141m
+rabbitmq-7bffc6c4f6              0         0         0       6h58m
+redis-85d49cddb5                 1         1         1       6h58m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "14. CONFIGMAPS (Configuration)" -ForegroundColor Yellow
+14. CONFIGMAPS (Configuration)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "-------------------------------" -ForegroundColor Yellow
+-------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get configmaps -n dentalhelp
+NAME                DATA   AGE
+dentalhelp-config   15     6h58m
+kube-root-ca.crt    1      6h58m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "15. SECRETS (Encrypted credentials)" -ForegroundColor Yellow
+15. SECRETS (Encrypted credentials)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "-------------------------------------" -ForegroundColor Yellow
+-------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get secrets -n dentalhelp
+NAME                 TYPE                DATA   AGE
+dentalhelp-secrets   Opaque              4      6h58m
+dentalhelp-tls       kubernetes.io/tls   2      5h39m
+eureka-basic-auth    Opaque              1      6h7m
+eureka-tls           kubernetes.io/tls   2      5h39m
+mysql-secrets        Opaque              1      6h58m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "16. RESOURCE USAGE (CPU/Memory per pod)" -ForegroundColor Yellow
+16. RESOURCE USAGE (CPU/Memory per pod)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "-----------------------------------------" -ForegroundColor Yellow
+-----------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl top pods -n dentalhelp 2>$null
+NAME                                   CPU(cores)   MEMORY(bytes)
+api-gateway-85b578cd94-ltttm           8m           207Mi
+appointment-service-79f6b6fc96-qpg4d   3m           241Mi
+auth-service-6f7cbdf858-pt6gb          5m           250Mi
+eureka-server-798457fd97-8mw4m         15m          217Mi
+mysql-appointment-0                    15m          371Mi
+mysql-auth-0                           13m          380Mi
+mysql-patient-0                        12m          367Mi
+patient-service-6f698f88bf-7srdc       3m           242Mi
+rabbitmq-777845b8cb-s6pfp              164m         110Mi
+redis-85d49cddb5-bcnqt                 10m          3Mi
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if (-not $?) {
+>>     Write-Host "Metrics server not available" -ForegroundColor Gray
+>> }
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "17. NODE RESOURCE USAGE (GCE Instance Metrics)" -ForegroundColor Yellow
+17. NODE RESOURCE USAGE (GCE Instance Metrics)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "------------------------------------------------" -ForegroundColor Yellow
+------------------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl top nodes 2>$null
+NAME                                                CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+gke-dentalhelp-cluster-default-pool-cfe27372-c39c   134m         14%      1924Mi          68%
+gke-dentalhelp-cluster-default-pool-cfe27372-grx2   126m         13%      1617Mi          57%
+gke-dentalhelp-cluster-default-pool-cfe27372-hw5r   269m         28%      1545Mi          55%
+gke-dentalhelp-cluster-default-pool-cfe27372-sbj7   100m         10%      1534Mi          54%
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if (-not $?) {
+>>     Write-Host "Metrics server not available" -ForegroundColor Gray
+>> }
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "18. EUREKA SERVICE DISCOVERY STATUS" -ForegroundColor Yellow
+18. EUREKA SERVICE DISCOVERY STATUS
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "------------------------------------" -ForegroundColor Yellow
+------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $eurekaIP = kubectl get svc eureka-server -n dentalhelp -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>$null
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if ($eurekaIP) {
+>>     Write-Host "Access Eureka dashboard at: http://$eurekaIP:8761" -ForegroundColor Green
+>> } else {
+>>     Write-Host "Eureka LoadBalancer IP not found" -ForegroundColor Gray
+>> }
+Eureka LoadBalancer IP not found
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "19. GKE AUTO-SCALING STATUS" -ForegroundColor Yellow
+19. GKE AUTO-SCALING STATUS
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "----------------------------" -ForegroundColor Yellow
+----------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Cluster Autoscaler: ENABLED (GKE managed)" -ForegroundColor Green
+Cluster Autoscaler: ENABLED (GKE managed)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Current Node Pool Size: $(kubectl get nodes --no-headers | Measure-Object -Line | Select-Object -ExpandProperty Lines) nodes" -ForegroundColor Cyan
+Current Node Pool Size: 4 nodes
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Horizontal Pod Autoscalers:" -ForegroundColor Gray
+Horizontal Pod Autoscalers:
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get hpa -n dentalhelp 2>$null
+NAME                      REFERENCE                        TARGETS                               MINPODS   MAXPODS   REPLICAS   AGE
+api-gateway-hpa           Deployment/api-gateway           cpu: 3%/70%, memory: 41%/80%          1         10        1          6h52m
+appointment-service-hpa   Deployment/appointment-service   cpu: <unknown>/70%, memory: 63%/80%   1         3         1          6h51m
+auth-service-hpa          Deployment/auth-service          cpu: 2%/70%, memory: 65%/80%          1         3         1          6h51m
+patient-service-hpa       Deployment/patient-service       cpu: 3%/70%, memory: 63%/80%          1         3         1          6h51m
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if (-not $?) {
+>>     Write-Host "  No HPA configured (can be added for auto-scaling pods)" -ForegroundColor Yellow
+>> }
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "20. CLUSTER EVENTS (Recent activity)" -ForegroundColor Yellow
+20. CLUSTER EVENTS (Recent activity)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "--------------------------------------" -ForegroundColor Yellow
+--------------------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> kubectl get events -n dentalhelp --sort-by='.lastTimestamp' | Select-Object -Last 20
+42m         Normal    Pulling                   pod/auth-service-6f7cbdf858-pt6gb                 Pulling image "bogdanelcucoditadepurcel/dentalhelp-auth-service:latest"
+42m         Normal    Started                   pod/auth-service-6f7cbdf858-pt6gb                 Started container auth-service
+41m         Warning   FailedGetResourceMetric   horizontalpodautoscaler/auth-service-hpa          did not receive metrics for targeted pods (pods might be unready)
+41m         Normal    TriggeredScaleUp          pod/auth-service-6f7cbdf858-w646h                 Pod triggered scale-up: [{https://www.googleapis.com/compute/v1/projects/dentalhelp-demo/zones/us-central1-a/instanceGroups/gke-dentalhelp-cluster-default-pool-cfe27372-grp 4->5 (max: 5)}]
+41m         Warning   Unhealthy                 pod/auth-service-6f7cbdf858-pt6gb                 Readiness probe failed: Get "http://10.108.2.11:8081/actuator/health/readiness": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+40m         Warning   FailedScaleUp             pod/auth-service-6f7cbdf858-w646h                 Node scale up in zones us-central1-a associated with this pod failed: GCE quota exceeded. Pod is at risk of not being scheduled.
+37m         Normal    SuccessfulDelete          replicaset/auth-service-6f7cbdf858                Deleted pod: auth-service-6f7cbdf858-w646h
+37m         Normal    SuccessfulRescale         horizontalpodautoscaler/auth-service-hpa          New size: 1; reason: cpu resource utilization (percentage of request) below target
+37m         Normal    HpaProfilePerformance     horizontalpodautoscaler/auth-service-hpa          The HPA rescaled target based on performance profile
+37m         Normal    ScalingReplicaSet         deployment/auth-service                           Scaled down replica set auth-service-6f7cbdf858 from 2 to 1
+11m         Warning   FailedGetResourceMetric   horizontalpodautoscaler/appointment-service-hpa   missing request for cpu
+10m         Warning   Unhealthy                 pod/rabbitmq-777845b8cb-s6pfp                     Liveness probe errored and resulted in unknown state: command timed out: "rabbitmq-diagnostics ping" timed out after 5s
+3m50s       Normal    WaitForFirstConsumer      persistentvolumeclaim/mysql-auth-pvc              waiting for first consumer to be created before binding
+3m50s       Normal    WaitForFirstConsumer      persistentvolumeclaim/mysql-dental-records-pvc    waiting for first consumer to be created before binding
+3m50s       Normal    WaitForFirstConsumer      persistentvolumeclaim/mysql-notification-pvc      waiting for first consumer to be created before binding
+3m50s       Normal    WaitForFirstConsumer      persistentvolumeclaim/mysql-patient-pvc           waiting for first consumer to be created before binding
+3m50s       Normal    WaitForFirstConsumer      persistentvolumeclaim/mysql-treatment-pvc         waiting for first consumer to be created before binding
+3m50s       Normal    WaitForFirstConsumer      persistentvolumeclaim/mysql-xray-pvc              waiting for first consumer to be created before binding
+3m50s       Normal    WaitForFirstConsumer      persistentvolumeclaim/mysql-appointment-pvc       waiting for first consumer to be created before binding
+62s         Warning   FailedGetResourceMetric   horizontalpodautoscaler/appointment-service-hpa   No recommendation
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "================================================================" -ForegroundColor Cyan
+================================================================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "  DEPLOYMENT SUMMARY - GOOGLE CLOUD PLATFORM" -ForegroundColor Cyan
+  DEPLOYMENT SUMMARY - GOOGLE CLOUD PLATFORM
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "================================================================" -ForegroundColor Cyan
+================================================================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $totalNodes = (kubectl get nodes --no-headers | Measure-Object -Line).Lines
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $totalPods = (kubectl get pods -n dentalhelp --no-headers | Measure-Object -Line).Lines
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $totalServices = (kubectl get svc -n dentalhelp --no-headers | Measure-Object -Line).Lines
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> $gcpProject = gcloud config get-value project 2>$null
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes>
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "GOOGLE CLOUD INTEGRATION:" -ForegroundColor Green
+GOOGLE CLOUD INTEGRATION:
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "-------------------------" -ForegroundColor Green
+-------------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Cloud Provider: Google Cloud Platform (GCP)" -ForegroundColor White
+Cloud Provider: Google Cloud Platform (GCP)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "GCP Project: $gcpProject" -ForegroundColor Cyan
+GCP Project: dentalhelp-demo
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Kubernetes Service: Google Kubernetes Engine (GKE)" -ForegroundColor White
+Kubernetes Service: Google Kubernetes Engine (GKE)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Compute Service: Google Compute Engine (GCE)" -ForegroundColor White
+Compute Service: Google Compute Engine (GCE)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Storage Service: Google Persistent Disk (PD)" -ForegroundColor White
+Storage Service: Google Persistent Disk (PD)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Load Balancer: GCP Cloud Load Balancing + NGINX Ingress" -ForegroundColor White
+Load Balancer: GCP Cloud Load Balancing + NGINX Ingress
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Region/Zone: us-central1-a" -ForegroundColor White
+Region/Zone: us-central1-a
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Cluster Name: dentalhelp-cluster" -ForegroundColor White
+Cluster Name: dentalhelp-cluster
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "CLUSTER RESOURCES:" -ForegroundColor Green
+CLUSTER RESOURCES:
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "------------------" -ForegroundColor Green
+------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Total GCE Nodes: $totalNodes VMs" -ForegroundColor Cyan
+Total GCE Nodes: 4 VMs
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Total Pods: $totalPods containers" -ForegroundColor Cyan
+Total Pods: 10 containers
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Total Services: $totalServices endpoints" -ForegroundColor Cyan
+Total Services: 10 endpoints
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Namespaces: dentalhelp, kube-system, default" -ForegroundColor White
+Namespaces: dentalhelp, kube-system, default
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "SECURITY & FEATURES:" -ForegroundColor Green
+SECURITY & FEATURES:
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "--------------------" -ForegroundColor Green
+--------------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "HTTPS/TLS: ENABLED (Let's Encrypt Production Certs)" -ForegroundColor Green
+HTTPS/TLS: ENABLED (Let's Encrypt Production Certs)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Auto-Scaling: ENABLED (GKE Cluster Autoscaler)" -ForegroundColor Green
+Auto-Scaling: ENABLED (GKE Cluster Autoscaler)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Load Balancing: ENABLED (GCP LoadBalancer)" -ForegroundColor Green
+Load Balancing: ENABLED (GCP LoadBalancer)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Service Discovery: Netflix Eureka (Running)" -ForegroundColor White
+Service Discovery: Netflix Eureka (Running)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Message Queue: RabbitMQ (Running)" -ForegroundColor White
+Message Queue: RabbitMQ (Running)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Caching Layer: Redis (Running)" -ForegroundColor White
+Caching Layer: Redis (Running)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Databases: MySQL x3 on Persistent Disks" -ForegroundColor White
+Databases: MySQL x3 on Persistent Disks
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Monitoring: Prometheus + Grafana (Ready to deploy)" -ForegroundColor Yellow
+Monitoring: Prometheus + Grafana (Ready to deploy)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "Backups: Automated CronJob (Ready to deploy)" -ForegroundColor Yellow
+Backups: Automated CronJob (Ready to deploy)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "EXTERNAL ACCESS:" -ForegroundColor Green
+EXTERNAL ACCESS:
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "----------------" -ForegroundColor Green
+----------------
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> if ($ingressIP) {
+>>     Write-Host "Application URL: https://dentalhelp.$ingressIP.nip.io" -ForegroundColor Green
+>>     Write-Host "LoadBalancer IP: $ingressIP (GCP External IP)" -ForegroundColor Cyan
+>> } else {
+>>     Write-Host "LoadBalancer IP: Not assigned" -ForegroundColor Red
+>> }
+Application URL: https://dentalhelp.136.112.216.160.nip.io
+LoadBalancer IP: 136.112.216.160 (GCP External IP)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host ""
+
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "================================================================" -ForegroundColor Cyan
+================================================================
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "CONFIRMED: System is running on Google Cloud Platform (GKE)" -ForegroundColor Green
+CONFIRMED: System is running on Google Cloud Platform (GKE)
+PS C:\Users\bcali\Desktop\proiect bun 2\DenthelpSecond\deployment\kubernetes> Write-Host "================================================================" -ForegroundColor Cyan

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dentalhelp
+  labels:
+    name: dentalhelp
+    app: dental-help-microservices

@@ -1,0 +1,55 @@
+
+.patient-history-container{
+
+    display: flex;
+    flex-direction: column;
+    background-color: #e6f7f9;
+    height: 100vh;
+
+}
+
+.slidebar{
+    width: 200px;
+    background: rgba(255, 255, 255, 0.69);
+    padding: 20px;
+    align-items: flex-start;
+    border-right: 1px solid #ccc;
+
+}
+
+.components{
+    display: flex;
+    align-content: normal;
+}
+
+.content{}
+
+.options-buttons{
+    color: #16336e;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: rgba(101, 196, 149, 0.24);
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+
+}
+
+.active-component-button{
+    margin-bottom: 10px;
+    font-size: 20px;
+    margin-top: 10px;
+    background-color: #bcefff;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+/* Dark mode styles */

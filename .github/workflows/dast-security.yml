@@ -1,0 +1,156 @@
+name: DAST Security Testing (Manual)
+
+# Dynamic Application Security Testing - Tests running application
+# Manual only to reduce costs
+
+on:
+  workflow_dispatch:  # Manual trigger only
+    inputs:
+      target_url:
+        description: 'Target URL to scan'
+        required: false
+        default: 'http://localhost:8080'
+      scan_depth:
+        description: 'Scan depth (quick/standard/deep)'
+        required: true
+        type: choice
+        options:
+          - quick
+          - standard
+          - deep
+        default: 'standard'
+
+jobs:
+  dast-scan:
+    name: DAST Scan with OWASP ZAP
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start application (if local scan)
+        if: contains(github.event.inputs.target_url, 'localhost')
+        run: |
+          cat > .env << EOF
+          MAIL_USERNAME=test@example.com
+          MAIL_PASSWORD=testpassword
+          AZURE_STORAGE_CONNECTION_STRING=test
+          AZURE_STORAGE_CONTAINER_NAME=xrays
+          EOF
+
+          echo "Starting application for DAST scanning..."
+          docker-compose up -d
+
+          echo "Waiting for application to be ready..."
+          sleep 120
+
+          # Verify services are up
+          curl -f http://localhost:8080/actuator/health || echo "API Gateway not ready"
+
+      - name: OWASP ZAP Baseline Scan
+        if: github.event.inputs.scan_depth == 'quick'
+        uses: zaproxy/action-baseline@v0.10.0
+        with:
+          target: ${{ github.event.inputs.target_url }}
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+        continue-on-error: true
+
+      - name: OWASP ZAP Full Scan
+        if: github.event.inputs.scan_depth == 'standard' || github.event.inputs.scan_depth == 'deep'
+        uses: zaproxy/action-full-scan@v0.8.0
+        with:
+          target: ${{ github.event.inputs.target_url }}
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a -j'
+        continue-on-error: true
+
+      - name: Upload ZAP results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-scan-results
+          path: |
+            report_html.html
+            report_json.json
+            report_md.md
+          retention-days: 30
+
+      - name: Nikto Web Scanner
+        run: |
+          docker run --network="host" \
+            sullo/nikto \
+            -h ${{ github.event.inputs.target_url }} \
+            -output nikto-report.html \
+            -Format html || echo "Nikto scan completed with findings"
+        continue-on-error: true
+
+      - name: Upload Nikto results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nikto-results
+          path: nikto-report.html
+          retention-days: 30
+        continue-on-error: true
+
+      - name: Security Headers Check
+        run: |
+          echo "Checking security headers..."
+          curl -I ${{ github.event.inputs.target_url }}/actuator/health || true
+
+      - name: Generate DAST report summary
+        if: always()
+        run: |
+          cat > dast-summary.md << 'EOF'
+          # DAST Security Scan Summary
+
+          ## Scan Details
+          - **Target:** ${{ github.event.inputs.target_url }}
+          - **Scan Depth:** ${{ github.event.inputs.scan_depth }}
+          - **Date:** $(date)
+
+          ## Tools Used
+          1. **OWASP ZAP** - Web application scanner
+          2. **Nikto** - Web server scanner
+
+          ## Results
+          Check the following artifacts for detailed results:
+          - `zap-scan-results` - OWASP ZAP findings (HTML, JSON, MD)
+          - `nikto-results` - Nikto scan report
+
+          ## Common Vulnerabilities to Check
+          - SQL Injection
+          - Cross-Site Scripting (XSS)
+          - Cross-Site Request Forgery (CSRF)
+          - Security Misconfiguration
+          - Sensitive Data Exposure
+          - Broken Authentication
+          - XML External Entities (XXE)
+          - Broken Access Control
+
+          ## Remediation
+          1. Review all HIGH and CRITICAL findings first
+          2. Fix or accept each vulnerability
+          3. Re-run scan to verify fixes
+          4. Update security headers
+          5. Enable HTTPS in production
+
+          ## Resources
+          - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+          - [ZAP Documentation](https://www.zaproxy.org/docs/)
+          EOF
+
+      - name: Upload summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dast-summary
+          path: dast-summary.md
+          retention-days: 30
+
+      - name: Cleanup
+        if: always() && contains(github.event.inputs.target_url, 'localhost')
+        run: docker-compose down -v

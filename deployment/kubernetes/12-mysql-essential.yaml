@@ -1,0 +1,228 @@
+# =============================================================================
+# MYSQL DATABASES - ESSENTIAL ONLY (Auth + Patient)
+# Optimized for 4-node cluster
+# =============================================================================
+
+# Auth Database
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-auth
+  namespace: dentalhelp
+spec:
+  serviceName: mysql-auth
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-auth
+  template:
+    metadata:
+      labels:
+        app: mysql-auth
+        tier: database
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              value: auth_db
+          resources:
+            requests:
+              memory: "384Mi"
+              cpu: "200m"
+            limits:
+              memory: "768Mi"
+              cpu: "400m"
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 10
+            periodSeconds: 5
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-auth
+  namespace: dentalhelp
+spec:
+  clusterIP: None
+  selector:
+    app: mysql-auth
+  ports:
+    - port: 3306
+      targetPort: 3306
+
+---
+# Patient Database
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-patient
+  namespace: dentalhelp
+spec:
+  serviceName: mysql-patient
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-patient
+  template:
+    metadata:
+      labels:
+        app: mysql-patient
+        tier: database
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              value: patient_db
+          resources:
+            requests:
+              memory: "384Mi"
+              cpu: "200m"
+            limits:
+              memory: "768Mi"
+              cpu: "400m"
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 10
+            periodSeconds: 5
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-patient
+  namespace: dentalhelp
+spec:
+  clusterIP: None
+  selector:
+    app: mysql-patient
+  ports:
+    - port: 3306
+      targetPort: 3306
+
+---
+# Appointment Database
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-appointment
+  namespace: dentalhelp
+spec:
+  serviceName: mysql-appointment
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-appointment
+  template:
+    metadata:
+      labels:
+        app: mysql-appointment
+        tier: database
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              value: appointment_db
+          resources:
+            requests:
+              memory: "384Mi"
+              cpu: "200m"
+            limits:
+              memory: "768Mi"
+              cpu: "400m"
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 10
+            periodSeconds: 5
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-appointment
+  namespace: dentalhelp
+spec:
+  clusterIP: None
+  selector:
+    app: mysql-appointment
+  ports:
+    - port: 3306
+      targetPort: 3306

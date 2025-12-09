@@ -1,0 +1,126 @@
+# =============================================================================
+# MANUAL BACKUP JOB
+# Run this to test backups or create on-demand backup
+# Usage: kubectl create -f 02-manual-backup-job.yaml
+# =============================================================================
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-backup-manual
+  namespace: dentalhelp
+  labels:
+    app: database-backup
+    type: manual
+spec:
+  template:
+    metadata:
+      labels:
+        app: database-backup
+        type: manual
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: mysql-backup
+          image: mysql:8.0
+          command:
+            - /bin/bash
+            - -c
+            - |
+              # Manual backup script (same as CronJob)
+              echo "==================================="
+              echo "DentalHelp Database Backup (MANUAL)"
+              echo "Started: $(date)"
+              echo "==================================="
+
+              BACKUP_DATE=$(date +%Y%m%d-%H%M%S)-manual
+              BACKUP_DIR="/backup/$BACKUP_DATE"
+              mkdir -p $BACKUP_DIR
+
+              DATABASES=(
+                "auth_db"
+                "patient_db"
+                "appointment_db"
+                "dental_records_db"
+                "xray_db"
+                "treatment_db"
+                "notification_db"
+              )
+
+              BACKUP_COUNT=0
+              FAILED_COUNT=0
+
+              for db in "${DATABASES[@]}"; do
+                echo "Backing up $db..."
+
+                if mysqldump -h mysql -u root -p$MYSQL_ROOT_PASSWORD \
+                  --single-transaction \
+                  --quick \
+                  --lock-tables=false \
+                  $db > $BACKUP_DIR/${db}.sql 2>/dev/null; then
+
+                  gzip $BACKUP_DIR/${db}.sql
+                  SIZE=$(du -h $BACKUP_DIR/${db}.sql.gz | cut -f1)
+                  echo "✓ $db backed up successfully ($SIZE)"
+                  ((BACKUP_COUNT++))
+                else
+                  echo "✗ Failed to backup $db"
+                  ((FAILED_COUNT++))
+                fi
+              done
+
+              cat > $BACKUP_DIR/manifest.txt <<EOF
+              DentalHelp Database Backup Manifest (MANUAL)
+              =============================================
+              Backup Date: $BACKUP_DATE
+              Total Databases: ${#DATABASES[@]}
+              Successful Backups: $BACKUP_COUNT
+              Failed Backups: $FAILED_COUNT
+
+              Databases Backed Up:
+              EOF
+
+              ls -lh $BACKUP_DIR/*.sql.gz >> $BACKUP_DIR/manifest.txt 2>/dev/null || true
+
+              echo ""
+              echo "==================================="
+              echo "Backup Summary:"
+              echo "  Databases backed up: $BACKUP_COUNT"
+              echo "  Failed backups: $FAILED_COUNT"
+              echo "  Backup location: $BACKUP_DIR"
+              echo "  Total backup size: $(du -sh $BACKUP_DIR | cut -f1)"
+              echo "Completed: $(date)"
+              echo "==================================="
+
+              if [ $BACKUP_COUNT -eq 0 ]; then
+                echo "ERROR: All backups failed!"
+                exit 1
+              fi
+
+              echo "Manual backup completed successfully!"
+              exit 0
+
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: root-password
+
+          volumeMounts:
+            - name: backup-storage
+              mountPath: /backup
+
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
+      volumes:
+        - name: backup-storage
+          persistentVolumeClaim:
+            claimName: backup-pvc

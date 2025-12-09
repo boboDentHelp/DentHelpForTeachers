@@ -1,0 +1,191 @@
+# =============================================================================
+# NGINX INGRESS WITH HTTPS FOR PROMETHEUS & GRAFANA
+# Alternative to GCE Ingress - uses nginx-ingress-controller
+# Supports cert-manager for Let's Encrypt SSL certificates (FREE)
+# =============================================================================
+
+# Prerequisites:
+# 1. Install nginx-ingress-controller:
+#    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+#
+# 2. Install cert-manager for automatic SSL certificates:
+#    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.yaml
+
+---
+# cert-manager ClusterIssuer for Let's Encrypt (FREE SSL)
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # Let's Encrypt production server
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: admin@dentalhelp.com  # Replace with your email
+    privateKeySecretRef:
+      name: letsencrypt-prod-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+
+---
+# Let's Encrypt Staging (for testing)
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: admin@dentalhelp.com  # Replace with your email
+    privateKeySecretRef:
+      name: letsencrypt-staging-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+
+---
+# Basic Auth Secret for Prometheus
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prometheus-basic-auth
+  namespace: monitoring
+type: Opaque
+data:
+  # Username: admin, Password: admin123
+  # Generate with: htpasswd -nb admin admin123 | base64 -w 0
+  auth: YWRtaW46JGFwcjEkSGVzOC9jWkIkL04xU0hqVUxaLllhSy9FSkF2dGlPLgo=
+
+---
+# Nginx Ingress for Grafana with HTTPS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress-nginx
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # SSL redirect
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # cert-manager will automatically provision SSL certificate
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # Use staging for testing: cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    # Timeouts
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    # Body size
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    # CORS (optional)
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+  labels:
+    app: grafana
+spec:
+  tls:
+    - hosts:
+        - grafana.dentalhelp.com  # Replace with your domain
+      secretName: grafana-tls
+  rules:
+    - host: grafana.dentalhelp.com  # Replace with your domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+
+---
+# Nginx Ingress for Prometheus with HTTPS and Basic Auth
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus-ingress-nginx
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # SSL redirect
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # cert-manager SSL certificate
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # Basic Authentication for security
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: prometheus-basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: "Prometheus - Authentication Required"
+    # Timeouts
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    # Rate limiting (optional)
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+  labels:
+    app: prometheus
+spec:
+  tls:
+    - hosts:
+        - prometheus.dentalhelp.com  # Replace with your domain
+      secretName: prometheus-tls
+  rules:
+    - host: prometheus.dentalhelp.com  # Replace with your domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus
+                port:
+                  number: 9090
+
+---
+# OPTIONAL: Combined Ingress for both services under one domain
+# Uncomment if you want to access both services from same domain with different paths
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: monitoring-combined-ingress
+#   namespace: monitoring
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+#     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+#     # Basic auth only for Prometheus path
+#     nginx.ingress.kubernetes.io/auth-type: basic
+#     nginx.ingress.kubernetes.io/auth-secret: prometheus-basic-auth
+#     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+#     nginx.ingress.kubernetes.io/configuration-snippet: |
+#       # Disable auth for Grafana path
+#       if ($request_uri ~* ^/grafana) {
+#         set $auth_type "";
+#       }
+# spec:
+#   tls:
+#     - hosts:
+#         - monitoring.dentalhelp.com
+#       secretName: monitoring-tls
+#   rules:
+#     - host: monitoring.dentalhelp.com
+#       http:
+#         paths:
+#           - path: /grafana
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: grafana
+#                 port:
+#                   number: 3000
+#           - path: /prometheus
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: prometheus
+#                 port:
+#                   number: 9090

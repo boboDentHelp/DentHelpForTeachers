@@ -1,0 +1,123 @@
+.page{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.appointment_request{
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.titleAppReq{
+    color: #283b53;
+    align-content: center;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.requests{
+    list-style: none;
+    padding: 0;
+}
+.patient_link{
+    color: #0b1d3a;
+    cursor: pointer;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0 0.3rem;
+    font-weight: bold;
+}
+
+.patient_link:hover {
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 16.5px;
+}
+.arrow{
+     height: 10px;
+     width: auto;
+ }
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.button{
+    background-color: #0b1d3a;
+    color: #e7f3fe;
+}
+
+.button:hover{
+    background-color: #e7f3fe;
+    color: #0b1d3a;
+}
+
+.button1:hover{
+    background-color: #0b1d3a;
+    color: #e7f3fe;
+}
+
+.button1{
+    background-color: #e7f3fe;
+    color: #0b1d3a;
+}
+
+.confirmForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.confirmTitle{
+    font-size: 18px;
+    color: #0b1d3a;
+    font-weight: bold;
+}
+
+.arrow{
+    cursor: pointer;
+}
+
+.arrow_section{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:0.2rem;
+}
+
+/* Dark mode styles */

@@ -1,0 +1,20 @@
+.page{
+    background-color: #e6f7f9;
+    height: 100vh;
+}
+
+.cards{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: rgba(255, 255, 255, 0.66);
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 70px;
+    border: 2px solid #3fcfe7;
+    border-radius: 30px;
+}
+
+/* Dark mode styles */

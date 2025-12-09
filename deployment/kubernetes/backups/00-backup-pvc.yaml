@@ -1,0 +1,17 @@
+# =============================================================================
+# BACKUP STORAGE - Persistent Volume for Database Backups
+# =============================================================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backup-pvc
+  namespace: dentalhelp
+  labels:
+    app: database-backup
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi  # 10GB for backups (7 days retention)
+  storageClassName: standard-rwo  # GKE standard persistent disk

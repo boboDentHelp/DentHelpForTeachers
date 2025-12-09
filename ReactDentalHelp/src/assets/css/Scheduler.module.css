@@ -1,0 +1,164 @@
+.patients-appointment-title{
+    font-size: 25px;
+    text-transform: uppercase;
+    color: #16336e;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.add-appointment-button{
+    background-color: #bde9fa;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #16336e;
+    border-color: #3fcfe7;
+}
+
+.addNewAppT{
+    color: #16336e;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.addBtn{
+    align-content: center;
+    width: auto;
+    height: auto;
+    color: #e7f3fe;
+    background-color: #283b53;
+    margin-top: 10px;
+}
+
+.addBtn:hover{
+
+    color: #283b53;
+    background-color: #e7f3fe;
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.actionButton{
+    margin-bottom: 10px;
+}
+.cancelAppointment{
+    align-content: center;
+    width: auto;
+    height: auto;
+    color: #e7f3fe;
+    background-color: #283b53;
+    margin-top: 10px;
+}
+
+.cancelAppointment:hover{
+    color: #283b53;
+    background-color: #e6f7ff;
+}
+
+.closeModal{
+    margin-top: 10px;
+    background-color: #e6f7ff;
+    color: #283b53;
+}
+
+.closeModal:hover{
+    margin-top: 10px;
+    background-color: #283b53;
+    color: #e6f7ff;
+}
+
+.appointment-reason-label {
+    padding-top: 15px;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #333; /* Gri închis pentru contrast */
+    display: block;
+    margin-bottom: 10px;
+}
+
+.patientName{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+    gap:0.4rem;
+}
+
+.patientNameB{
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    color: #283b53;
+    font-weight: bold;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.patientNameB:hover{
+    background-color: white;
+    padding: 0;
+    color: #283b53;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+
+.appointment-reason-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: white;
+    font-size: 1rem;
+    color: #333;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: #ffffff;
+    border: 2px solid #000;
+    box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.2); /* Echivalent pentru boxShadow */
+    padding: 16px; /* Echivalent pentru p: 4 (4 * 4px = 16px) */
+}
+
+/* Dark mode styles */

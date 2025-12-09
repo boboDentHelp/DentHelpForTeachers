@@ -1,0 +1,571 @@
+.page{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+.status{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.details{
+    width: 50%;
+    background-color: #0b1d3a;
+    border-radius: 10px;
+}
+
+.oblique-line {
+    width: 200px; /* Lungimea liniei */
+    height: 2px; /* Grosimea liniei */
+    background-color: black; /* Culoarea liniei */
+}
+
+.oblique-lineT {
+    width: 150px; /* Lungimea liniei */
+    height: 2px; /* Grosimea liniei */
+    background-color: black; /* Culoarea liniei */
+}
+
+h2{
+    color: whitesmoke;
+    text-align: center;
+}
+
+.t18, .t17, .t16, .t15, .t14, .t13, .t12, .t11,
+.t21, .t22, .t23, .t24, .t25, .t26, .t27, .t28,
+.t33, .t34, .t35, .t36, .t37, .t38,
+.t43, .t44, .t45, .t46, .t47, .t48{
+    height: 2.5rem;
+    width: auto;
+    cursor: pointer;
+}
+
+.t31, .t32,.t41, .t42{
+    height: 2.5rem;
+    width: auto;
+    cursor: pointer;
+}
+
+
+.t15T, .t14T,
+ .t24T, .t25T, .t34T, .t35T,
+.t44T, .t45T{
+    height: 3rem;
+    width: auto;
+    cursor: pointer;
+}
+.t12T, .t11T, .t21T,
+.t22T, .t13T, .t23T,
+.t43T, .t33T{
+    height: 2.4rem;
+    width: auto;
+    cursor: pointer;
+}
+
+
+.t31T, .t32T,.t41T, .t42T{
+    height: 2.5rem;
+    width: auto;
+    cursor: pointer;
+}
+
+.upperPart,
+.upperPartT,
+.downPartT,
+.downPart {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.downPart{
+    align-items: flex-end;
+    padding-bottom: 1rem;
+}
+.upperPart{
+    padding: 1rem;
+}
+
+.downPartT{
+    align-items: flex-end;
+    padding-bottom: 1rem;
+}
+.upperPartT{
+    padding: 1rem;
+}
+
+.middleDownPart, .upperMiddlePart{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+
+.firstUpperPart, .lastDownPart, .firstUpperPartT, .lastDownPartT{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.firstDownPart, .lastUpperPart, .firstDownPartT, .lastUpperPartT{
+    display: flex;
+    flex-direction: column;
+}
+
+.t11{
+    transform: translateY(-22px) translateX(2px);
+    rotate: -5deg;
+}
+.t21{
+    transform: translateY(-22px) translateX(-2px);
+    rotate: 5deg;
+}
+.t12{
+    rotate: -20deg;
+    transform: translateY(-9px) translateX(8px);
+}
+.t22{
+    rotate: 20deg;
+    transform: translateY(-9px) translateX(-8px);
+}
+
+.t13{
+    rotate: -46deg;
+    transform: translateY(14px) translateX(6px);
+}
+
+.t23{
+    rotate: 46deg;
+    transform: translateY(14px) translateX(-6px);
+}
+
+.t14{
+    rotate: -55deg;
+    transform: translateX(-5px) translateY(-5px);
+}
+.t24{
+    rotate: 55deg;
+    transform: translateX(5px) translateY(-5px);
+}
+
+.t15{
+    rotate: -60deg;
+    transform: translateX(-10px) translateY(-13px);
+}
+.t25{
+    rotate: 60deg;
+    transform: translateX(10px) translateY(-13px);
+}
+
+.t16{
+    rotate: 90deg;
+    transform: translateY(20px);
+}
+.t26{
+    rotate: -90deg;
+    transform: translateY(20px);
+}
+
+.t17{
+    rotate: 90deg;
+    transform: translateY(22px);
+}
+.t27{
+    rotate: -90deg;
+    transform: translateY(22px);
+}
+
+.t18{
+    rotate: 90deg;
+    transform: translateY(25px);
+}
+.t28{
+    rotate: -90deg;
+    transform: translateY(25px);
+}
+
+
+.t31{
+    transform: translateY(22px) translateX(3px);
+    rotate: 5deg;
+}
+.t41{
+    transform: translateY(22px) translateX(-3px);
+    rotate: -5deg;
+}
+
+
+.t32{
+    rotate: 30deg;
+    transform: translateY(13px) translateX(12px);
+}
+.t42{
+    rotate: -30deg;
+    transform: translateY(13px) translateX(-12px);
+}
+
+
+.t33{
+    rotate: 48deg;
+    transform: translateY(-5px) translateX(10px);
+}
+.t43{
+    rotate: -48deg;
+    transform: translateY(-5px) translateX(-8px);
+}
+
+.t34{
+    rotate: 70deg;
+    transform: translateX(2px) translateY(15px);
+}
+.t44{
+    rotate: -70deg;
+    transform: translateX(-2px) translateY(15px);
+}
+
+
+.t35{
+    rotate: 80deg;
+    transform: translateX(3px) translateY(20px);
+}
+.t45{
+    rotate: -80deg;
+    transform: translateX(3px) translateY(20px);
+}
+
+.t36{
+    rotate: 90deg;
+    transform: translateY(27px);
+}
+.t46{
+    rotate: -90deg;
+    transform: translateY(27px);
+}
+
+.t37{
+    rotate: 90deg;
+    transform: translateY(30px);
+}
+.t47{
+    rotate: -90deg;
+    transform: translateY(30px);
+}
+
+.t38{
+    rotate: 90deg;
+    transform: translateY(30px);
+}
+.t48{
+    rotate: -90deg;
+    transform: translateY(30px);
+}
+/*temporary teeth
+*/
+.t11T{
+    transform: translateY(-15px) translateX(6px);
+    rotate: -15deg;
+}
+.t21T{
+    transform: translateY(-15px) translateX(-6px);
+    rotate: 15deg;
+}
+.t12T{
+    rotate: -45deg;
+    transform: translateY(3px) translateX(10px);
+}
+.t22T{
+    rotate: 40deg;
+    transform: translateY(3px) translateX(-10px);
+}
+
+.t13T{
+    rotate: -70deg;
+    transform: translateY(30px) translateX(-10px);
+}
+
+.t23T{
+    rotate: 70deg;
+    transform: translateY(30px) translateX(10px);
+}
+
+.t14T{
+    rotate: -70deg;
+    transform: translateX(-5px) translateY(15px);
+}
+.t24T{
+    rotate: 70deg;
+    transform: translateX(5px) translateY(15px);
+}
+
+.t15T{
+    rotate: -79deg;
+    transform: translateX(5px) translateY(10px);
+}
+.t25T{
+    rotate: 79deg;
+    transform: translateX(-5px) translateY(10px);
+}
+
+.t16T{
+    rotate: 90deg;
+    transform: translateY(20px);
+}
+.t26T{
+    rotate: -90deg;
+    transform: translateY(20px);
+}
+
+.t17T{
+    rotate: 90deg;
+    transform: translateY(22px);
+}
+.t27T{
+    rotate: -90deg;
+    transform: translateY(22px);
+}
+
+.t18T{
+    rotate: 90deg;
+    transform: translateY(25px);
+}
+.t28T{
+    rotate: -90deg;
+    transform: translateY(25px);
+}
+
+.t31T{
+    transform: translateY(20px) translateX(5px);
+    rotate: 10deg;
+}
+.t41T{
+    transform: translateY(20px) translateX(-5px);
+    rotate: -10deg;
+}
+
+.t32T{
+    rotate: 40deg;
+    transform: translateY(5px) translateX(15px);
+}
+.t42T{
+    rotate: -40deg;
+    transform: translateY(5px) translateX(-12px);
+}
+
+.t33T{
+    rotate: 55deg;
+    transform: translateY(-29px) translateX(-2px);
+}
+.t43T{
+    rotate: -55deg;
+    transform: translateY(-29px) translateX(5px);
+}
+
+.t34T{
+    rotate: 95deg;
+    transform: translateX(-10px) translateY(-15px);
+}
+.t44T{
+    rotate: -95deg;
+    transform: translateX(12px) translateY(-15px);
+}
+
+.t35T{
+    rotate: 80deg;
+    transform: translateX(3px) translateY(-12px);
+}
+.t45T{
+    rotate: -80deg;
+    transform: translateX(3px) translateY(-12px);
+}
+
+
+.active{
+    display: flex;
+    background-color: rgba(224, 247, 250, 0.99);
+    align-items: center;
+    margin: 5px 0;
+    cursor: pointer;
+    padding: 1px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.list-element{
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.96);
+    align-items: center;
+    margin: 5px 0;
+    cursor: pointer;
+    padding: 1px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.appointment-img{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.text-no{
+    color: #e6f7ff;
+    font-size: 15px;
+    text-align: center;
+}
+
+h4{
+    color: #bde9fa;
+    font-size: 20px;
+}
+
+.teeth-history{
+    max-height: 120px; /* Setează înălțimea maximă pentru lista de pacienți */
+    overflow-y: auto;
+}
+
+.intervention-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #e0f7fa;
+    padding-bottom: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.details-text{
+    font-size: 16px;
+    color: #16336e;
+    padding-top: 10px;
+    margin: 0;
+}
+
+
+.details-box{
+    background-color: #e6f7ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.details{
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-new-intervention-button{
+    background-color: #e6f7ff;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+.add-new-intervention-button:hover{
+    background-color: #ffffff;
+}
+
+.newInterventionsDetails{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.addNewInterventionForm{
+    background-color: #e0f7fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.submitButton{
+    background-color: #0b1d3a;
+    color: #e7f3fe;
+    font-family: "Montserrat", sans-serif;
+}
+
+.input{
+    border-radius: 0;
+}
+
+.intervention{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.left-part{
+    display: flex;
+    flex-direction: row;
+}
+
+.delete-icon, .edit-icon{
+    height: 25px;
+    width: auto;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.switch{
+    color: #e7f3fe;
+    align-items: center;
+}
+
+.headPart{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+.generalTooth{
+    height: 55px;
+    width: 55px;
+}
+
+.tooth_details{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tooth_details_title{
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    color: #e7f3fe;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.history_title{
+    padding: 0;
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: 17px;
+}
+.history, .problems{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+/* Dark mode styles */

@@ -1,0 +1,11 @@
+/* Ascunde butonul pentru emoji */
+.custom-chat-widget .rcw-send {
+    display: none !important;
+}
+
+/* Menține dimensiunea fixă a câmpului de introducere */
+.custom-chat-widget .rcw-new-message {
+    max-height: 50px ;
+    overflow-y: auto ;
+    resize: none ;
+}

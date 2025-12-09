@@ -1,0 +1,287 @@
+.pageContent{
+    min-height: 100%;
+}
+
+.page{
+    display: flex;
+    flex-direction: column;
+}
+
+.detXray{
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #0b2950;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    gap: 1rem;
+}
+
+.leftSide {
+    flex: 1;
+}
+
+.rightSide {
+    flex: 1;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.radiographsList {
+    display: flex;
+    flex-direction: column;
+    max-height: 300px; /* Setează înălțimea maximă */
+    overflow-y: auto;  /* Afișează scrollbar-ul doar dacă lista este prea lungă */
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.radiographItem {
+    border: 3px solid #16336e;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: #bde9fa;
+}
+
+.radiographImage {
+    width: 50px;
+    height: auto;
+    margin-right: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+
+.radiographDate {
+    font-size: 14px;
+    color: rgb(22, 51, 110);
+    font-weight: bold;
+}
+
+.radiographDetails {
+    text-align: left;
+}
+
+.radiographDetails img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.edit_btn{
+    background-color: #bde9fa;
+    color: #0b1d3a;
+}
+
+.edit_btn:hover{
+    background-color: #0b1d3a;
+    color: #bde9fa;
+}
+
+.addNewRadTitle{
+    color: #304a7a;
+}
+.obs_title{
+    color: #0b1d3a;
+    font-weight: bold;
+}
+
+.leftSide{
+    flex: 1;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #0b1d3a;
+}
+.xrTitle{
+    color: #bcefff;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.radiographsList{
+    background-color: #bde9fa;
+}
+.addButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: white ;
+    color: #0b1d3a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addButton:hover {
+    background-color: #e6f7ff;
+    color: #16336e;
+}
+
+/* Stiluri pentru modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+}
+
+.modalContent h2 {
+    margin-bottom: 20px;
+}
+
+.modalContent label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.modalContent input, .modalContent textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.submitButton {
+    background-color: #bcefff;
+    color: #0b1d3a;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: #0b1d3a;
+    color: #bcefff;}
+
+
+
+/* CSS pentru modal imagine */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundal transparent negru */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    position: relative;
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 10px;
+    color: white;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.closeButton:hover {
+    background-color: #16336e;
+}
+
+.largeRadiographImage {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    display: block;
+}
+
+/* Cursor pointer pe imagine */
+.radiographImage {
+    cursor: pointer;
+}
+.xray_title{
+    color:#e6f7ff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.xrayDetails{
+    font-size: 20px;
+    font-weight: bold;
+}
+.noXray{
+    text-align: center;
+    font-size: 17px;
+}
+
+@media(max-width: 850px) {
+    .container{
+        flex-direction: column;
+    }
+}
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.editTitle{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    text-align: center;
+    font-style: normal;
+    color: #0b1d3a;
+}
+
+/* Dark mode styles */

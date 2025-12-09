@@ -1,0 +1,167 @@
+/* Vertical Menu - Light Mode Only, CSS Animations */
+.menu {
+    background-color: #E0F7FA;
+    border-right: 1px solid #B2EBF2;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.5rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+    overflow: hidden;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo svg,
+.logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    color: #0891b2;
+}
+
+.logo-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0891b2;
+    white-space: nowrap;
+}
+
+.burger {
+    padding: 0.5rem 0;
+    cursor: pointer;
+}
+
+.hamburgerImg {
+    width: 30px;
+    height: 30px;
+    color: #0891b2;
+}
+
+.menuItems {
+    list-style: none;
+    margin: 0 0;
+    flex-grow: 1;
+    padding-top: 1rem;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.menuItems li {
+    margin: 15px 0;
+}
+
+.menuItems a {
+    text-decoration: none;
+    color: #0e7490;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.category {
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+}
+
+.menuItems a:hover {
+    color: #0891b2;
+}
+
+.submenu {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 30px;
+    display: block;
+}
+
+.submenu li {
+    margin: 10px 0;
+}
+
+.submenu a {
+    display: block;
+    padding: 10px;
+    color: #155e75;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.submenu a:hover {
+    color: #0891b2;
+}
+
+.verticalIcon {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
+    color: #0891b2;
+    flex-shrink: 0;
+}
+
+.menuItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.menuItem:hover .verticalIcon {
+    color: #06b6d4;
+}
+
+.footerMenu {
+    padding-bottom: 50px;
+    padding-left: 10px;
+}
+
+.footerMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footerMenu li {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footerMenu li svg {
+    width: 16px;
+    height: 16px;
+    color: #0891b2;
+}
+
+.footerMenuButtons {
+    text-decoration: none;
+    color: #0e7490;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.footerMenuButtons:hover {
+    color: #0891b2;
+    background-color: transparent;
+    padding: 0;
+}
+
+.verticalItems {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

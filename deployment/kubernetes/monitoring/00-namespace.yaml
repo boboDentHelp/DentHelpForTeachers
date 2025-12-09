@@ -1,0 +1,12 @@
+# Monitoring Namespace
+# Using the existing dentalhelp namespace for monitoring stack
+# to keep everything in one namespace
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+  labels:
+    name: monitoring
+    app: prometheus-grafana-stack
+    environment: production

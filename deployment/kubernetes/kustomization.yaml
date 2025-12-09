@@ -1,0 +1,56 @@
+# =============================================================================
+# KUSTOMIZE CONFIGURATION
+# Deploy all: kubectl apply -k deployment/kubernetes/
+# =============================================================================
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dentalhelp
+
+resources:
+  - 00-namespace.yaml
+  - 01-secrets.yaml
+  - 02-configmap.yaml
+  - 03-storage.yaml
+  - 10-rabbitmq.yaml
+  - 11-redis.yaml
+  - 12-mysql.yaml
+  - 20-eureka-server.yaml
+  - 21-api-gateway.yaml
+  - 22-microservices.yaml
+  - 30-ingress.yaml
+
+# Common labels applied to all resources
+commonLabels:
+  app.kubernetes.io/name: dentalhelp
+  app.kubernetes.io/managed-by: kustomize
+
+# Image customization - set your Docker Hub username
+images:
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-eureka-server
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-eureka-server
+    newTag: latest
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-api-gateway
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-api-gateway
+    newTag: latest
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-auth-service
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-auth-service
+    newTag: latest
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-patient-service
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-patient-service
+    newTag: latest
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-appointment-service
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-appointment-service
+    newTag: latest
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-dental-records-service
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-dental-records-service
+    newTag: latest
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-xray-service
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-xray-service
+    newTag: latest
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-treatment-service
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-treatment-service
+    newTag: latest
+  - name: ${DOCKERHUB_USERNAME}/dentalhelp-notification-service
+    newName: YOUR_DOCKERHUB_USERNAME/dentalhelp-notification-service
+    newTag: latest

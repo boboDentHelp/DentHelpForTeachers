@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+  h2:
+    console:
+      enabled: false
+
+  # RabbitMQ and Mail disabled for unit/integration tests
+  # Tests should mock RabbitTemplate and JavaMailSender instead
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
+jwt:
+  secret: test-secret-key-for-testing-purposes-minimum-256-bits
+  expiration: 3600000
+
+mail:
+  host: smtp.test.com
+  port: 587
+  username: test@test.com
+  password: testpassword
+  properties:
+    mail:
+      smtp:
+        auth: false
+        starttls:
+          enable: false
+
+logging:
+  level:
+    root: WARN
+    com.dentalhelp: DEBUG

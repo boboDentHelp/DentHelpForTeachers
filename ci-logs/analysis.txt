@@ -1,0 +1,76 @@
+========================================
+CI Log Fetcher v2
+========================================
+
+Repository: bogdan2002VS/dentalhelp-2
+Branch: claude/debug-auth-503-error-011CUoE2SqgGwJ79DXtx7s7h
+
+Method 1: Trying GitHub CLI (gh)...
+❌ gh CLI not available
+
+========================================
+Method 2: Direct log file inspection
+========================================
+
+Analyzing test configuration...
+
+--- api-gateway ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  ⚠️  ApiGatewayControllerIntegrationTest.java missing @MockBean (may need it)
+
+--- appointment-service ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  ✅ AppointmentControllerIntegrationTest.java has @MockBean
+
+--- auth-service ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+          - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+  ✅ AuthControllerIntegrationTest.java has @MockBean
+
+--- dental-records-service ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  ✅ DentalRecordsControllerIntegrationTest.java has @MockBean
+
+--- eureka-server ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  ⚠️  EurekaServerControllerIntegrationTest.java missing @MockBean (may need it)
+
+--- notification-service ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+          - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+  ✅ NotificationControllerIntegrationTest.java has @MockBean
+
+--- patient-service ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  ✅ PatientControllerIntegrationTest.java has @MockBean
+
+--- treatment-service ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  ⚠️  TreatmentControllerIntegrationTest.java missing @MockBean (may need it)
+
+--- xray-service ---
+  ✅ Has test config
+  ✅ Has autoconfigure exclusions:
+          - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  ⚠️  XrayControllerIntegrationTest.java missing @MockBean (may need it)
+
+========================================
+To view live CI logs, go to:
+https://github.com/bogdan2002VS/dentalhelp-2/actions
+========================================

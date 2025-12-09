@@ -1,0 +1,164 @@
+# =============================================================================
+# HTTPS INGRESS FOR PROMETHEUS & GRAFANA
+# Option 1: Google-managed certificates (Recommended for GKE - FREE)
+# Option 2: cert-manager with Let's Encrypt
+# =============================================================================
+
+# OPTION 1: Google-managed SSL certificate (Recommended for GKE)
+# This is FREE and automatically managed by Google
+# Prerequisites:
+# 1. Domain DNS must point to the LoadBalancer IP
+# 2. Can take 15-60 minutes to provision
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: monitoring-cert
+  namespace: monitoring
+spec:
+  domains:
+    - grafana.dentalhelp.com      # Replace with your actual domain
+    - prometheus.dentalhelp.com   # Replace with your actual domain
+
+---
+# Basic Auth Secret for Prometheus (optional but recommended)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prometheus-basic-auth
+  namespace: monitoring
+type: Opaque
+data:
+  # Default: admin / admin123
+  # Generate with: htpasswd -nb admin admin123 | base64
+  auth: YWRtaW46JGFwcjEkSDY1dnVIMGkkbkRjb1hYaWQ5MWo0L0EwZUFWSC8uMAo=
+
+---
+# Ingress for Grafana with HTTPS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    # Google-managed certificate
+    networking.gke.io/managed-certificates: "monitoring-cert"
+    # Force HTTPS redirect
+    kubernetes.io/ingress.allow-http: "false"
+    # Enable Cloud CDN (optional - for better performance)
+    # cloud.google.com/cdn-enabled: "true"
+    # Backend timeout
+    cloud.google.com/backend-timeout: "300"
+  labels:
+    app: grafana
+spec:
+  rules:
+    - host: grafana.dentalhelp.com  # Replace with your actual domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+
+---
+# Ingress for Prometheus with HTTPS and Basic Auth
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus-ingress
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    # Google-managed certificate (shared with Grafana)
+    networking.gke.io/managed-certificates: "monitoring-cert"
+    # Force HTTPS redirect
+    kubernetes.io/ingress.allow-http: "false"
+    # Basic Authentication (recommended for Prometheus)
+    # Note: GCE ingress doesn't support basic auth directly
+    # Consider using Identity-Aware Proxy (IAP) for better security
+    # cloud.google.com/iap-enabled: "true"
+  labels:
+    app: prometheus
+spec:
+  rules:
+    - host: prometheus.dentalhelp.com  # Replace with your actual domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus
+                port:
+                  number: 9090
+
+---
+# BackendConfig for custom health check (optional)
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: grafana-backend-config
+  namespace: monitoring
+spec:
+  healthCheck:
+    checkIntervalSec: 15
+    timeoutSec: 10
+    healthyThreshold: 2
+    unhealthyThreshold: 3
+    type: HTTP
+    requestPath: /api/health
+    port: 3000
+  timeoutSec: 300
+  connectionDraining:
+    drainingTimeoutSec: 60
+
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: prometheus-backend-config
+  namespace: monitoring
+spec:
+  healthCheck:
+    checkIntervalSec: 15
+    timeoutSec: 10
+    healthyThreshold: 2
+    unhealthyThreshold: 3
+    type: HTTP
+    requestPath: /-/healthy
+    port: 9090
+  timeoutSec: 300
+  connectionDraining:
+    drainingTimeoutSec: 60
+
+---
+# ========================================================================
+# ALTERNATIVE: Using LoadBalancer Service with HTTPS (simpler but uses static IP)
+# Uncomment this section if you prefer LoadBalancer over Ingress
+# ========================================================================
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: grafana-lb
+#   namespace: monitoring
+#   annotations:
+#     # Google Cloud Load Balancer
+#     cloud.google.com/load-balancer-type: "External"
+#     # Request a static IP (must be created first)
+#     # cloud.google.com/static-ip-name: "grafana-ip"
+#     # Enable HTTPS (requires certificate)
+#     # cloud.google.com/backend-config: '{"default": "grafana-backend-config"}'
+# spec:
+#   type: LoadBalancer
+#   ports:
+#     - name: https
+#       port: 443
+#       targetPort: 3000
+#       protocol: TCP
+#   selector:
+#     app: grafana

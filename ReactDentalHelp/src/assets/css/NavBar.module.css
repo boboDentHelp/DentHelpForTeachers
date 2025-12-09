@@ -1,0 +1,133 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.navbarContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoSection {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.logoImg {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.logoText {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0891b2;
+    letter-spacing: 0.5px;
+}
+
+.logoAccent {
+    color: #0e7490;
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navButton {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    color: #0e7490;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.navButton::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(to right, #0891b2, #06b6d4);
+    transition: transform 0.3s ease;
+}
+
+.navButton:hover::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.navButton:hover {
+    color: #0891b2;
+    background: rgba(8, 145, 178, 0.1);
+}
+
+.themeToggleWrapper {
+    margin-left: 0.5rem;
+}
+
+@media(max-width: 768px) {
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+
+    .navbarContainer {
+        flex-wrap: wrap;
+    }
+
+    .navLinks {
+        gap: 0.25rem;
+    }
+
+    .navButton {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .logoText {
+        font-size: 1.25rem;
+    }
+
+    .logoImg {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media(max-width: 480px) {
+    .navButton:nth-child(2),
+    .navButton:nth-child(3) {
+        display: none;
+    }
+
+    .navbarContainer {
+        justify-content: space-between;
+        width: 100%;
+    }
+}

@@ -1,0 +1,50 @@
+.page{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    background-color: #e0f7fa;
+    min-height: 100vh;
+}
+
+.slidebar{
+    width: 200px;
+    background: rgba(255, 255, 255, 0.69);
+    padding: 20px;
+    align-items: flex-start;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
+}
+.content{
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(255, 255, 255, 0.69);
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.slidebar-buttons {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: rgba(101, 196, 149, 0.24);
+    border-radius: 10px;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+.slidebar-buttons-active {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-color: #16336e;
+}
+
+/* Dark mode styles */

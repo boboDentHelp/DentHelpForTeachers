@@ -1,0 +1,385 @@
+
+.page {
+    display: flex;
+    flex-direction: column;
+    background-color: #e6f7f9;
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 80px; /* Space for fixed navbar */
+}
+
+.content-container {
+    display: flex;
+    justify-content:space-between;
+    align-items: flex-start;
+    padding: 2rem;
+    min-height: calc(100vh - 80px);
+}
+
+.title {
+    font-size: 58px;
+    font-weight: 400;
+    color: #283b53;
+    margin-bottom: 20px;
+    text-align:left;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #34BDA5;
+    margin-top: 10px;
+    text-align: left;
+    max-width: 100%;
+}
+
+.proposition {
+    font-size: 36px;
+    color: #ff6f61;
+    text-align: left;
+}
+
+.text-content{
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
+    margin-left: 5rem;
+}
+
+.appointment-button {
+    padding: 10px 20px;
+    background-color: #283b53;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: fit-content;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.right-images {
+    position: relative;
+    width: 600px;
+}
+
+.right-image {
+    width: 90%;
+    height: auto;
+    z-index: 2;
+    position: relative;
+}
+
+.stain-image {
+    position: absolute;
+    left: 20px;
+    width: 550px;
+    height: auto;
+    z-index: 1;
+}
+
+@media(max-width: 800px) {
+    .right-images{
+        display: none;
+    }
+    .text-content{
+        margin: 1rem;
+        align-items: center;
+    }
+}
+
+
+.services-section {
+    background-color: rgba(52, 189, 165, 0.58);
+    padding: 60px 0;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+}
+
+.services-title {
+    font-size: 36px;
+    color: rgba(255, 255, 255, 0.93);
+    margin-bottom: 40px;
+}
+
+.services-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.service-card {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(29, 29, 29, 0.5);
+    width: 250px;
+    height: 350px;
+    text-align: center;
+}
+
+.service-card h3 {
+    font-size: 24px;
+    color: #ff6f61;
+    margin-bottom: 10px;
+}
+
+.service-card p {
+    font-size: 16px;
+    color: #555;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px rgba(29, 29, 29, 0.5);
+}
+
+.service-card:hover .flip-card-inner {
+    transform: rotateY(180deg); /* Cardul se rotește la hover */
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Ascunde partea opusă când cardul nu e întors */
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flip-card-front img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.flip-card-back {
+    background-color: #34bda5;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.flip-card-back p {
+    font-size: 14px;
+    color: white;
+    padding: 0 10px;
+    text-align: justify;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.section {
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.51);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 5rem 20px;
+
+}
+
+.title-options {
+    font-size: 36px;
+    color: #34bda5;
+    margin-bottom: 20px;
+}
+
+.intro-options {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.history-section {
+    position: relative;
+    padding: 40px 30px;
+    background-image: url('../../assets/home_photo/cab.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5rem;
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+    margin-top: 5rem;
+}
+
+.history-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    z-index: 1;
+}
+
+.history-content {
+    position: relative;
+    z-index: 2;
+}
+
+.history-title {
+    font-size: 36px;
+    color: #34bda5;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.history-text {
+    font-size: 20px;
+    color: #16336e;
+    line-height: 1.6;
+    text-align: justify;
+    margin-bottom: 30px;
+}
+
+.doctor-profile {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: row;
+    background: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+.doctor-photo {
+    border-radius: 15px 0 0 15px;
+    height: 100%;
+    width: 30%;
+    object-fit: cover;
+}
+
+.doctor-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.doctor-title {
+    display: inline-block;
+    font-size: 24px;
+    color: #34bda5;
+    font-weight: bold;
+}
+
+.doctor-text {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Animații */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media(max-width: 800px){
+    .profile-card{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .doctor-photo{
+        margin-top: 10px;
+        border-radius: 15px 15px 15px 15px;
+    }
+}
+
+.contact-section {
+    background-color: #283b53; /* O nuanță de albastru deschis pentru un contrast plăcut */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem; /* Spațiu între secțiunea anterioară și aceasta */
+    text-align: center; /* Centrat pentru un aspect modern */
+    animation: fadeIn 1s ease-in-out; /* Animație la încărcare */
+    padding: 5rem 0;
+}
+
+.contact-title {
+    font-size: 36px;
+    color: #34bda5;
+    margin-bottom: 20px;
+}
+
+.contact-description {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.69);
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.contact-item:hover {
+    transform: translateY(-5px);
+}
+
+.contact-item-title {
+    font-size: 20px;
+    color: #34bda5;
+    margin-bottom: 10px;
+}
+
+.contact-item-text {
+    font-size: 16px;
+    color: #ec7659;
+}
+

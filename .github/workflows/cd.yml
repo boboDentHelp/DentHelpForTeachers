@@ -1,0 +1,126 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  deploy:
+    name: Deploy to Environment
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://your-app-url.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Deploy to Kubernetes (Example)
+        run: |
+          echo "🚀 Deploying to production..."
+          echo "This is a placeholder for your actual deployment"
+          echo "You can deploy to:"
+          echo "  - Kubernetes cluster"
+          echo "  - AWS ECS/EKS"
+          echo "  - Azure Container Apps"
+          echo "  - Google Cloud Run"
+          echo "  - Your own VPS with Docker Compose"
+
+      # Example: Deploy to a VPS using Docker Compose
+      - name: Deploy to VPS via SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          if [ -z "$SSH_PRIVATE_KEY" ]; then
+            echo "⚠️  SSH_PRIVATE_KEY not configured - skipping deployment"
+            echo "To enable deployment, add SSH_PRIVATE_KEY, SERVER_HOST, and SERVER_USER secrets"
+            exit 0
+          fi
+
+          # Set up SSH
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
+
+          # Copy files to server
+          scp -r docker-compose.yml $SERVER_USER@$SERVER_HOST:~/dentalhelp/
+          scp -r microservices $SERVER_USER@$SERVER_HOST:~/dentalhelp/
+
+          # Deploy on server
+          ssh $SERVER_USER@$SERVER_HOST << 'EOF'
+            cd ~/dentalhelp
+            docker-compose pull
+            docker-compose up -d --build
+            docker-compose ps
+          EOF
+
+          echo "✅ Deployment completed!"
+
+      - name: Deployment notification
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deployment to production successful!"
+          else
+            echo "❌ Deployment failed!"
+          fi
+
+  # Smoke tests after deployment
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run smoke tests
+        run: |
+          echo "🧪 Running smoke tests..."
+
+          # Add your smoke test URLs here
+          ENDPOINTS=(
+            "http://localhost:8761/actuator/health"  # Eureka
+            "http://localhost:8080/actuator/health"  # API Gateway
+          )
+
+          # Note: Replace with your actual production URLs
+          echo "Configure your production URLs in the workflow"
+          echo "Example endpoints to test:"
+          for endpoint in "${ENDPOINTS[@]}"; do
+            echo "  - $endpoint"
+          done
+
+      - name: Performance check
+        run: |
+          echo "📊 Checking application performance..."
+          echo "This is where you'd run basic performance checks"
+          echo "See the load-test.yml workflow for comprehensive testing"
+
+  rollback:
+    name: Rollback on Failure
+    runs-on: ubuntu-latest
+    needs: [deploy, smoke-tests]
+    if: failure()
+
+    steps:
+      - name: Rollback deployment
+        run: |
+          echo "🔄 Rolling back deployment..."
+          echo "This would revert to the previous stable version"
+          # Add your rollback logic here

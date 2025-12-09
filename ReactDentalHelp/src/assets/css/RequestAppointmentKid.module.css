@@ -1,0 +1,205 @@
+.content{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    gap:1rem;
+}
+
+.text_part{
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-part{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.title{
+    text-align: center;
+    color: #0BB0CE;
+    font-size: 20px;
+}
+
+.edit-delete-button{
+    width: 25px;
+    height: auto;
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.time-slots-title{
+    font-size: 20px;
+}
+
+.appointment-reason-input {
+    max-width: 300px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: block;
+}
+
+.hours-input{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.add-timeslot-button{
+    border-color: white;
+    font-size: 16px;
+    padding: 3px;
+}
+
+/* Stil pentru etichete și titluri */
+.form-group label,
+.time-slots-title,
+.appointment-reason-label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333; /* Gri închis pentru contrast */
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Stil pentru input */
+.form-group input,
+.appointment-reason-input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: white; /* Alb pentru input */
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Stil pentru butonul de adăugare */
+.add-timeslot-button,
+button {
+    background-color: rgba(255, 249, 190, 0.75); /* Aurie */
+    color: #333; /* Text închis */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin-left: 5px;
+}
+
+/* Efect hover pentru butoane */
+button:hover {
+    background-color: #ffd15c; /* Aurie mai închisă la hover */
+}
+
+/* Mesajele de eroare */
+.Alert {
+    background-color: #ffcccb; /* Roșu deschis pentru eroare */
+    color: #333; /* Text mai întunecat */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.time-slots ul {
+    list-style: none;
+    padding: 0;
+}
+
+.time-slots li {
+    background-color: #fff; /* Alb */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Titlul secțiunii de intervale selectate */
+.time-slots-title {
+    color: #333; /* Gri închis */
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Input pentru motivul programării */
+.appointment-reason-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: white;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Trimite cererea */
+button.send-request {
+    background-color: #ffd700;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button.send-request:hover {
+    background-color: #f0b800; /* Aurie mai intensă pe hover */
+}
+
+
+.options{
+    max-height: 150px;
+    overflow: auto;
+}
+
+
+/* Stil pentru fiecare etichetă */
+.labelHour {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: auto !important;
+    margin-bottom: 0 !important;
+}
+
+/* Stil pentru checkbox */
+.checkBox {
+    margin: 0;
+    padding: 0;/* Elimină orice margine implicită */
+    cursor: pointer; /* Adaugă cursor pointer pentru checkbox */
+    width: auto !important;
+}
+
+.date{
+    text-align: center;
+    font-weight: bold;
+
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+
+.editT{
+    color: #283b53;
+}
+
+/* Dark mode styles */

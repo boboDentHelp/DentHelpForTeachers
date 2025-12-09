@@ -1,0 +1,47 @@
+
+.cab-services-container {
+    background-color: #f0f8ff;
+    color: #002855;
+    padding: 20px;
+}
+
+.title {
+    font-size: 2.5em;
+    color: #002855;
+    font-family: "Montserrat", sans-serif;
+    text-align: center;
+}
+
+.description {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.service {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 40, 85, 0.2);
+    max-width: 900px;
+}
+
+.service:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.service-img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    margin: 0 20px;
+}
+
+.service-text {
+    max-width: 500px;
+}
+
+/* Dark mode styles */

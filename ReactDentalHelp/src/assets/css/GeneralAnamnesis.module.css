@@ -1,0 +1,231 @@
+.page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+}
+
+.patientDataContainer {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.patientDataContainerC{
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap:0.8rem;
+}
+
+
+.label{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.title {
+    color: #333;
+    font-size: 23px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+}
+
+.infoContainer {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.infoMessage {
+    color: #6c757d;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.actionButtons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.buttonView, .buttonEdit {
+    padding: 10px 18px;
+    font-size: 15px;
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.buttonView {
+    background-color: #17a2b8;
+}
+
+.buttonEdit {
+    background-color: #28a745;
+}
+
+.buttonEdit, .buttonView, .buttonSave {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buttonEdit:hover, .buttonView:hover, .buttonSave:hover {
+    background-color: #0056b3; /* Întunecă culoarea la hover */
+    transform: scale(1.05); /* Mărește ușor dimensiunea butonului */
+}
+
+.infoMessage {
+    padding: 10px;
+    background-color: #e7f3fe; /* Fundal pentru mesaj */
+    border-left: 6px solid #2196F3; /* Linia albastră pe stânga */
+    margin-bottom: 20px;
+}
+
+.buttonSave {
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.formGroupB{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    color: #555;
+}
+
+.formGroup label {
+    font-size: 14px;
+    color: #555;
+}
+
+.formGroup input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+}
+
+.dataView {
+    width: 80%;
+    background-color: #f1f3f5;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.switchContainer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    gap: 8px; /* Adaugă spațiu între etichetă și casetă */
+}
+
+.checkbox{
+    width: auto; /* Setează lățimea automată */
+}
+
+.boolean-group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+.label_choice{
+    display: flex;
+    flex-direction: row;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.alcohol_label, .smoke_label, .coagulation_label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.actionButton{
+    margin-bottom: 10px;
+}
+
+/* Dark mode styles */
