@@ -1,7 +1,7 @@
 # DentalHelp Kubernetes - Production Ready with Auto-Scaling
 ## Complete Guide for Scalable Microservices Deployment
 
-This guide will help you deploy DentalHelp with **production-grade** configurations including:
+This guide will help the deploy DentalHelp with **production-grade** configurations including:
 - ✅ Auto-scaling (HPA)
 - ✅ Proper resource management
 - ✅ High availability
@@ -52,7 +52,7 @@ gcloud container clusters create dentalhelp-production `
 gcloud container clusters get-credentials dentalhelp-production --zone us-central1-a
 ```
 
-### Or Scale Your Existing Cluster
+### Or Scale ther Existing Cluster
 
 ```powershell
 # Scale up existing cluster
@@ -342,7 +342,7 @@ kubectl logs <pod-name> -n dentalhelp --previous
 ### Current Cluster Cost
 
 ```powershell
-# Calculate your cluster cost
+# Calculate ther cluster cost
 # Get number of nodes
 kubectl get nodes
 
@@ -458,7 +458,7 @@ kubectl port-forward svc/eureka-server 8761:8761 -n dentalhelp
 
 ---
 
-## 9. Demo for Your Teacher
+## 9. Demo for ther Teacher
 
 ### Show Auto-Scaling in Action
 
@@ -591,4 +591,4 @@ gcloud container clusters delete dentalhelp-cluster --zone us-central1-a
 
 ---
 
-**Your cluster is now production-ready with auto-scaling!** 🚀
+**ther cluster is now production-ready with auto-scaling!** 🚀
