@@ -3,11 +3,7 @@
 
 **Document Purpose**: Demonstrate proficient-level understanding of load testing methodologies, performance validation, and scalability verification for the DentalHelp microservices architecture.
 
-**Author**: DentalHelp Development Team
-**Date**: December 7, 2025
-**Status**: Proficient Level - Complete
 
----
 
 ## Table of Contents
 
@@ -83,7 +79,7 @@
 - ❌ Gatling: Scala-based (steeper learning curve)
 - ✅ k6: Best fit for microservices testing
 
-**Evidence**: `@k6/scripts/*.js` (5 test scripts), `@K6_LOAD_TEST_GUIDE.md`
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/tree/main/k6/scripts` (5 test scripts), `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/K6_LOAD_TEST_GUIDE.md`
 
 ### 2.3 Test Metrics
 
@@ -186,7 +182,7 @@
 - ✅ High availability
 - ✅ Resource quotas and limits
 
-**Evidence**: `@deployment/kubernetes/21-api-gateway.yaml:71-97` (HPA configuration)
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/deployment/kubernetes/21-api-gateway-production.yaml:71-97` (HPA configuration)
 
 ---
 
@@ -206,7 +202,7 @@
 - ✅ Response time <100ms
 - ✅ No errors
 
-**Evidence**: `@k6/scripts/smoke-test.js`
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/smoke-test.js`
 
 ### 4.2 Load Test
 
@@ -232,7 +228,7 @@ stages: [
 - ✅ P99 response time <500ms
 - ✅ Error rate <1%
 
-**Evidence**: `@k6/scripts/load-test.js:16-26`
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/load-test.js:16-26`
 
 ### 4.3 Stress Test
 
@@ -259,7 +255,7 @@ stages: [
 - ✅ System recovers after load reduction
 - ✅ No crash/restart events
 
-**Evidence**: `@k6/scripts/stress-test.js`
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/stress-test.js`
 
 ### 4.4 Spike Test
 
@@ -287,7 +283,7 @@ stages: [
 
 **Kubernetes Specific**: Tests HPA reaction time
 
-**Evidence**: `@k6/scripts/spike-test.js` (will be created)
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/spike-test.js` 
 
 ### 4.5 Soak Test
 
@@ -310,7 +306,7 @@ stages: [
 - ✅ No degradation over time
 - ✅ Error rate remains <1%
 
-**Evidence**: `@k6/scripts/soak-test.js` (will be created)
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/soak-test.js`
 
 ---
 
@@ -866,7 +862,7 @@ Actual scaling: 2 → 4 (doubled)
 - ✅ Right-sized resources: Reduced limits based on actual usage
 - ✅ Cluster autoscaler: Scale nodes down during low traffic
 
-**Evidence**: `@KUBERNETES-PRODUCTION-SCALING.md:340-410` (cost optimization section)
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/KUBERNETES-PRODUCTION-SCALING.md:340-410` (cost optimization section)
 
 ---
 
@@ -891,7 +887,7 @@ Actual scaling: 2 → 4 (doubled)
 - ✅ Added connection timeout: 30s
 - ✅ Database indexing: 5-10x faster queries (reduced connection hold time)
 
-**Code Evidence**: `@microservices/auth-service/src/main/resources/application.yml:16-21`
+**Code Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/microservices/auth-service/src/main/resources/application.yml:16-21`
 
 **2. Single Instance Bottleneck (Local)**
 
@@ -905,7 +901,7 @@ Actual scaling: 2 → 4 (doubled)
 - ✅ Horizontal Pod Autoscaler: 2-10 replicas
 - ✅ Load balancing across replicas
 
-**Evidence**: `@deployment/kubernetes/21-api-gateway.yaml:71-97` (HPA configuration)
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/deployment/kubernetes/21-api-gateway.yaml:71-97` (HPA configuration)
 
 **3. Memory Leaks in Long-Running Tests (Local)**
 
@@ -936,7 +932,7 @@ Actual scaling: 2 → 4 (doubled)
 ### 8.2 Optimizations Applied
 
 **Database Optimization**:
-- ✅ Indexes on all foreign keys: `@database-optimization/*.sql`
+- ✅ Indexes on all foreign keys: `https://github.com/boboDentHelp/DentHelpForTeachers/tree/main/database-optimization all .sql`
 - ✅ Composite indexes for common queries
 - ✅ Query optimization: 100-500ms → 10-50ms
 
@@ -945,7 +941,7 @@ Actual scaling: 2 → 4 (doubled)
 - ✅ Cache-aside pattern for frequently accessed data
 - ✅ TTL-based expiration (5 minutes for user profiles)
 
-**Evidence**: `@LEARNING_OUTCOME_3_SCALABLE_ARCHITECTURES.md:205-233` (caching section)
+**Evidence**: `LO3:205-233` (caching section)
 
 **Connection Pooling**:
 - ✅ HikariCP tuning: max 30 connections
@@ -957,7 +953,7 @@ Actual scaling: 2 → 4 (doubled)
 - ✅ Failure threshold: 50% (5 out of 10 requests)
 - ✅ Open state duration: 5 seconds
 
-**Evidence**: `@LEARNING_OUTCOME_3_SCALABLE_ARCHITECTURES.md:467-492` (circuit breaker)
+**Evidence**: `LO3:467-492` (circuit breaker)
 
 ---
 
@@ -979,7 +975,7 @@ Actual scaling: 2 → 4 (doubled)
 - Virtual users (VUs)
 - Data transfer (MB/s)
 
-**Evidence**: `@docker-compose.monitoring.yml` (Prometheus + Grafana stack)
+**Evidence**: `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/docker-compose.monitoring.yml` (Prometheus + Grafana stack)
 
 ### 9.2 Grafana Dashboards
 
@@ -1134,17 +1130,17 @@ auth-service-6c8d9e7f6-5hnp 265m         562Mi
 
 ### Appendix A: File Evidence
 
-- `@k6/scripts/smoke-test.js` - Smoke test script
-- `@k6/scripts/load-test.js` - Load test script (10k users profile)
-- `@k6/scripts/stress-test.js` - Stress test script (400 users)
-- `@k6/scripts/spike-test.js` - Spike test script (NEW)
-- `@k6/scripts/soak-test.js` - Soak test script (NEW)
-- `@K6_LOAD_TEST_GUIDE.md` - Load testing guide
-- `@KUBERNETES-PRODUCTION-SCALING.md` - Kubernetes scaling guide
-- `@deployment/kubernetes/21-api-gateway.yaml:71-97` - HPA configuration
-- `@deployment/kubernetes/22-microservices-production.yaml` - All service deployments
-- `@docker-compose.yml` - Local environment
-- `@docker-compose.monitoring.yml` - Grafana + Prometheus stack
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/smoke-test.js` - Smoke test script
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/load-test.js` - Load test script (10k users profile)
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/stress-test.js` - Stress test script (400 users)
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/spike-test.js` - Spike test script (NEW)
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/k6/scripts/soak-test.js` - Soak test script (NEW)
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/K6_LOAD_TEST_GUIDE.md` - Load testing guide
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/KUBERNETES-PRODUCTION-SCALING.md` - Kubernetes scaling guide
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/deployment/kubernetes/21-api-gateway.yaml:71-97` - HPA configuration
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/deployment/kubernetes/22-microservices-production.yaml` - All service deployments
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/docker-compose.yml` - Local environment
+- `https://github.com/boboDentHelp/DentHelpForTeachers/blob/main/docker-compose.monitoring.yml` - Grafana + Prometheus stack
 
 ### Appendix B: Commands Used
 
@@ -1173,8 +1169,3 @@ open http://localhost:3000
 - **Error Rate**: Percentage of failed requests
 
 ---
-
-**Document Version**: 1.0
-**Last Updated**: December 7, 2025
-**Author**: DentalHelp Development Team
-**Review Status**: ✅ Proficient Level - Approved for LO3 Submission
