@@ -8,16 +8,50 @@
 
 ---
 
+## 🚀 Quick Start (Recommended)
+
+This project includes a **ready-to-use Docker monitoring stack** in the `mock-monitoring/` directory. Run these commands to get realistic Grafana dashboards in under 2 minutes:
+
+```bash
+# Navigate to the mock monitoring directory
+cd mock-monitoring
+
+# Start with 100 users scenario (default)
+docker-compose up -d
+
+# Access Grafana dashboard
+open http://localhost:3000
+
+# Login: admin / admin123
+# Dashboard is pre-configured and auto-provisioned!
+```
+
+**Available Load Test Scenarios:**
+
+| Scenario | Command | Duration | Users | Use Case |
+|----------|---------|----------|-------|----------|
+| 100 Users | `SCENARIO=100_users docker-compose up -d` | 10 min | 100 | Light load / Smoke test |
+| 1,000 Users | `SCENARIO=1000_users docker-compose up -d` | 15 min | 1,000 | Normal production load |
+| 10,000 Users | `SCENARIO=10000_users docker-compose up -d` | 20 min | 10,000 | High load / Stress test |
+| Stress Test | `SCENARIO=stress_test docker-compose up -d` | 25 min | 400 | Breaking point analysis |
+| Spike Test | `SCENARIO=spike_test docker-compose up -d` | 15 min | 500 | Sudden traffic surge |
+| Soak Test | `SCENARIO=soak_test docker-compose up -d` | 30 min | 200 | Long-duration stability |
+
+**Take Screenshots at Key Moments** to document auto-scaling behavior!
+
+---
+
 ## Table of Contents
 
 1. [Why Mock Visualizations?](#1-why-mock-visualizations)
 2. [Tool Options](#2-tool-options)
-3. [Method 1: Grafana with Mock Data](#3-method-1-grafana-with-mock-data)
-4. [Method 2: Online Chart Tools](#4-method-2-online-chart-tools)
-5. [Method 3: Presentation Screenshots](#5-method-3-presentation-screenshots)
-6. [Method 4: Docker-Based Demo Environment](#6-method-4-docker-based-demo-environment)
+3. [Quick Start: Docker Mock Monitoring](#3-quick-start-docker-mock-monitoring)
+4. [Method 1: Grafana with Mock Data](#4-method-1-grafana-with-mock-data)
+5. [Method 2: Online Chart Tools](#5-method-2-online-chart-tools)
+6. [Method 3: Presentation Screenshots](#6-method-3-presentation-screenshots)
 7. [Decision Visualizations](#7-decision-visualizations)
 8. [Ready-to-Use Mockup Data](#8-ready-to-use-mockup-data)
+9. [Screenshot Guide](#9-screenshot-guide)
 
 ---
 
@@ -49,11 +83,12 @@ Create **realistic mock visualizations** that:
 
 ## 2. Tool Options
 
-### Option A: Local Grafana with Mock Data (Recommended)
+### Option A: Project Mock Monitoring Stack (RECOMMENDED)
 
-**Pros**: Most realistic, reusable, professional
-**Cons**: Requires Docker setup
-**Time**: 30-60 minutes
+**Location**: `mock-monitoring/` directory
+**Pros**: Pre-built, realistic, multiple scenarios, auto-provisioned dashboards
+**Cons**: Requires Docker
+**Time**: 2 minutes to start
 
 ### Option B: Online Chart Tools
 
@@ -67,261 +102,197 @@ Create **realistic mock visualizations** that:
 **Cons**: Less authentic appearance
 **Time**: 30-45 minutes
 
-### Option D: Docker Demo Environment
+---
 
-**Pros**: Fully functional, reusable
-**Cons**: More complex setup
-**Time**: 1-2 hours
+## 3. Quick Start: Docker Mock Monitoring
+
+### Project Structure
+
+The `mock-monitoring/` directory contains a complete, ready-to-use monitoring stack:
+
+```
+mock-monitoring/
+├── docker-compose.yml          # Main orchestration file
+├── README.md                   # Detailed documentation
+├── metrics-generator/
+│   ├── Dockerfile              # Python metrics generator image
+│   └── metrics_generator.py    # Simulates realistic metrics for all scenarios
+├── prometheus/
+│   └── prometheus.yml          # Prometheus scrape configuration
+└── grafana/
+    └── provisioning/
+        ├── datasources/
+        │   └── datasources.yml # Auto-configures Prometheus datasource
+        └── dashboards/
+            ├── dashboards.yml  # Dashboard provisioning config
+            └── dentalhelp-overview.json  # 14-panel pre-built dashboard
+```
+
+### Step-by-Step Usage
+
+#### 1. Start the Stack
+
+```bash
+cd mock-monitoring
+
+# Default: 100 users scenario
+docker-compose up -d
+
+# Or specify a scenario:
+SCENARIO=1000_users docker-compose up -d
+SCENARIO=10000_users docker-compose up -d
+SCENARIO=stress_test docker-compose up -d
+```
+
+#### 2. Access the Dashboards
+
+- **Grafana**: http://localhost:3000
+  - Username: `admin`
+  - Password: `admin123`
+  - Dashboard: "DentalHelp Auto-Scaling Overview" (auto-loaded)
+
+- **Prometheus**: http://localhost:9090
+  - Query metrics directly
+  - Verify data is being scraped
+
+#### 3. Wait for Data
+
+Each scenario simulates a complete load test cycle. Wait for the appropriate duration to capture the full test:
+
+| Scenario | Duration | Best Screenshot Time |
+|----------|----------|---------------------|
+| 100 Users | 10 min | After 8 minutes |
+| 1,000 Users | 15 min | After 12 minutes |
+| 10,000 Users | 20 min | After 16 minutes |
+| Stress Test | 25 min | After 20 minutes |
+| Spike Test | 15 min | After 10 minutes |
+| Soak Test | 30 min | After 25 minutes |
+
+#### 4. Take Screenshots
+
+The Grafana dashboard includes 14 panels:
+
+1. **CPU vs HPA Target** - Shows when HPA would trigger
+2. **Replicas vs Virtual Users** - Demonstrates scaling correlation
+3. **P95 Response Time** - Performance metrics
+4. **Error Rate** - System health
+5. **Per-Service CPU** - Individual service breakdown
+6. **Per-Service Memory** - Memory utilization
+7. **Per-Service Replicas** - Scaling per microservice
+
+#### 5. Switch Scenarios
+
+To change scenarios, restart with a new SCENARIO variable:
+
+```bash
+# Stop current stack
+docker-compose down
+
+# Start new scenario
+SCENARIO=10000_users docker-compose up -d
+```
+
+### Metrics Generated
+
+The mock metrics generator produces realistic Prometheus metrics:
+
+```promql
+# Available metrics
+dentalhelp_virtual_users          # Current simulated load
+dentalhelp_cpu_utilization        # CPU % per service
+dentalhelp_memory_utilization     # Memory % per service
+dentalhelp_replicas               # Pod replicas per service
+dentalhelp_response_time_p95      # P95 latency in ms
+dentalhelp_error_rate             # Error rate %
+dentalhelp_throughput_rps         # Requests per second
+dentalhelp_hpa_target             # HPA threshold (70%)
+```
 
 ---
 
-## 3. Method 1: Grafana with Mock Data
+## 4. Method 1: Grafana with Mock Data
 
-### Step 1: Start Local Grafana
+> **Note**: The project already includes a complete implementation in `mock-monitoring/`.
+> Use Section 3 for the recommended approach. This section explains the underlying architecture.
 
-```bash
-# Create docker-compose for mock monitoring
-cat > docker-compose.mockdata.yml << 'EOF'
-version: '3.8'
+### Architecture Overview
 
-services:
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./mock-prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+The mock monitoring stack uses:
+- **Prometheus** - Scrapes metrics from the generator every 2 seconds
+- **Grafana** - Visualizes metrics with pre-built dashboards
+- **Metrics Generator** - Python app that simulates realistic DentalHelp metrics
 
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
-    volumes:
-      - ./mock-dashboards:/etc/grafana/provisioning/dashboards
-      - ./mock-datasources:/etc/grafana/provisioning/datasources
+### Step 1: Using the Project's Docker Stack
 
-  # Mock metrics generator
-  metrics-generator:
-    image: python:3.9-slim
-    volumes:
-      - ./mock-metrics.py:/app/mock-metrics.py
-    command: python /app/mock-metrics.py
-    ports:
-      - "8000:8000"
-EOF
-```
-
-### Step 2: Create Mock Metrics Generator
-
-```python
-# mock-metrics.py - Generates realistic metrics for demo purposes
-from http.server import HTTPServer, BaseHTTPRequestHandler
-import time
-import math
-import random
-
-class MetricsHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-
-        # Current time for simulation
-        t = time.time()
-
-        # Simulate load test scenario
-        # Phase 1: Baseline (0-5 min)
-        # Phase 2: Ramp up (5-10 min)
-        # Phase 3: Peak (10-15 min)
-        # Phase 4: Scale response (15-20 min)
-        # Phase 5: Stabilization (20-25 min)
-
-        cycle = (t % 1500) / 60  # 25 minute cycle
-
-        if cycle < 5:
-            # Baseline
-            vus = 50 + random.randint(-5, 5)
-            cpu = 35 + random.randint(-3, 3)
-            replicas = 2
-            response_time = 145 + random.randint(-10, 10)
-            error_rate = 0.2 + random.random() * 0.1
-        elif cycle < 10:
-            # Ramp up
-            progress = (cycle - 5) / 5
-            vus = int(50 + 350 * progress)
-            cpu = int(35 + 45 * progress)
-            replicas = 2 + int(progress * 2)
-            response_time = int(145 + 500 * progress)
-            error_rate = 0.2 + 3 * progress
-        elif cycle < 15:
-            # Peak load
-            vus = 400 + random.randint(-20, 20)
-            cpu = 85 + random.randint(-5, 5)
-            replicas = 4 + int((cycle - 10) / 2.5)  # HPA scaling
-            response_time = 1200 + random.randint(-100, 100)
-            error_rate = 3.5 + random.random() * 0.5
-        elif cycle < 20:
-            # Scale response
-            progress = (cycle - 15) / 5
-            vus = 400 + random.randint(-20, 20)
-            cpu = int(85 - 25 * progress)
-            replicas = 6 + int(progress * 2)
-            response_time = int(1200 - 600 * progress)
-            error_rate = 3.5 - 2 * progress
-        else:
-            # Stabilization
-            vus = 400 + random.randint(-20, 20)
-            cpu = 55 + random.randint(-5, 5)
-            replicas = 8
-            response_time = 485 + random.randint(-30, 30)
-            error_rate = 1.5 + random.random() * 0.3
-
-        metrics = f"""# HELP dentalhelp_vus Current virtual users
-# TYPE dentalhelp_vus gauge
-dentalhelp_vus {vus}
-
-# HELP dentalhelp_cpu_percent CPU utilization percentage
-# TYPE dentalhelp_cpu_percent gauge
-dentalhelp_cpu_percent{{service="api-gateway"}} {cpu}
-dentalhelp_cpu_percent{{service="auth-service"}} {cpu * 0.7}
-dentalhelp_cpu_percent{{service="patient-service"}} {cpu * 0.6}
-
-# HELP dentalhelp_replicas Number of pod replicas
-# TYPE dentalhelp_replicas gauge
-dentalhelp_replicas{{service="api-gateway"}} {replicas}
-dentalhelp_replicas{{service="auth-service"}} {max(2, replicas - 2)}
-dentalhelp_replicas{{service="patient-service"}} {max(2, replicas - 2)}
-
-# HELP dentalhelp_response_time_ms P95 response time in milliseconds
-# TYPE dentalhelp_response_time_ms gauge
-dentalhelp_response_time_ms {response_time}
-
-# HELP dentalhelp_error_rate Error rate percentage
-# TYPE dentalhelp_error_rate gauge
-dentalhelp_error_rate {error_rate:.2f}
-
-# HELP dentalhelp_throughput_rps Requests per second
-# TYPE dentalhelp_throughput_rps gauge
-dentalhelp_throughput_rps {int(vus * 2.5)}
-
-# HELP dentalhelp_memory_mb Memory usage in MB
-# TYPE dentalhelp_memory_mb gauge
-dentalhelp_memory_mb{{service="api-gateway"}} {450 + cpu * 3}
-dentalhelp_memory_mb{{service="auth-service"}} {380 + cpu * 2}
-dentalhelp_memory_mb{{service="patient-service"}} {350 + cpu * 2}
-"""
-        self.wfile.write(metrics.encode())
-
-if __name__ == '__main__':
-    server = HTTPServer(('0.0.0.0', 8000), MetricsHandler)
-    print("Mock metrics server running on port 8000")
-    server.serve_forever()
-```
-
-### Step 3: Create Prometheus Config
-
-```yaml
-# mock-prometheus.yml
-global:
-  scrape_interval: 5s
-
-scrape_configs:
-  - job_name: 'mock-metrics'
-    static_configs:
-      - targets: ['metrics-generator:8000']
-```
-
-### Step 4: Create Grafana Dashboard JSON
-
-Create `mock-dashboards/auto-scaling-demo.json`:
-
-```json
-{
-  "dashboard": {
-    "title": "DentalHelp Auto-Scaling Demo",
-    "panels": [
-      {
-        "title": "HPA Replica Scaling vs CPU Utilization",
-        "type": "timeseries",
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
-        "targets": [
-          {
-            "expr": "dentalhelp_replicas{service=\"api-gateway\"}",
-            "legendFormat": "Replicas"
-          },
-          {
-            "expr": "dentalhelp_cpu_percent{service=\"api-gateway\"}",
-            "legendFormat": "CPU %"
-          }
-        ]
-      },
-      {
-        "title": "Response Time vs Virtual Users",
-        "type": "timeseries",
-        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
-        "targets": [
-          {
-            "expr": "dentalhelp_response_time_ms",
-            "legendFormat": "P95 Response Time (ms)"
-          },
-          {
-            "expr": "dentalhelp_vus",
-            "legendFormat": "Virtual Users"
-          }
-        ]
-      },
-      {
-        "title": "Error Rate During Scaling",
-        "type": "timeseries",
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
-        "targets": [
-          {
-            "expr": "dentalhelp_error_rate",
-            "legendFormat": "Error Rate %"
-          }
-        ]
-      },
-      {
-        "title": "Service Memory Usage",
-        "type": "timeseries",
-        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
-        "targets": [
-          {
-            "expr": "dentalhelp_memory_mb",
-            "legendFormat": "{{service}}"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### Step 5: Run and Capture Screenshots
+The project includes a complete implementation:
 
 ```bash
-# Start the mock environment
-docker-compose -f docker-compose.mockdata.yml up -d
+# Use the existing mock-monitoring stack
+cd mock-monitoring
+docker-compose up -d
+```
 
-# Wait for services to start
+The `docker-compose.yml` in `mock-monitoring/` includes:
+- **Prometheus** (port 9090)
+- **Grafana** (port 3000) with auto-provisioned dashboards
+- **Metrics Generator** (port 8000) with configurable scenarios
+
+### Step 2: Understanding the Metrics Generator
+
+The metrics generator (`mock-monitoring/metrics-generator/metrics_generator.py`) simulates realistic metrics. It supports 6 scenarios controlled by the `SCENARIO` environment variable:
+
+| Scenario | Simulates |
+|----------|-----------|
+| `100_users` | Light load test with 100 concurrent users |
+| `1000_users` | Normal production load with 1,000 users |
+| `10000_users` | High load stress test with 10,000 users |
+| `stress_test` | Gradual ramp to system breaking point |
+| `spike_test` | Sudden traffic surge to test elasticity |
+| `soak_test` | Extended duration stability test |
+
+Each scenario simulates:
+1. **Ramp-up phase** - Gradual load increase
+2. **Peak phase** - Maximum load
+3. **HPA scaling response** - Automatic replica adjustment
+4. **Stabilization** - System recovery
+
+### Step 3: Pre-built Grafana Dashboard
+
+The project includes a comprehensive 14-panel Grafana dashboard at:
+`mock-monitoring/grafana/provisioning/dashboards/dentalhelp-overview.json`
+
+**Dashboard Panels:**
+- CPU Utilization vs HPA Target (70% threshold line)
+- Pod Replicas vs Virtual Users
+- P95 Response Time
+- Error Rate %
+- Throughput (requests/second)
+- Per-service CPU breakdown (all 9 services)
+- Per-service Memory utilization
+- Per-service Replica counts
+
+### Step 4: Run and Capture Screenshots
+
+```bash
+# Navigate to mock-monitoring directory
+cd mock-monitoring
+
+# Start the environment
+docker-compose up -d
+
+# Wait for services to start (30 seconds)
 sleep 30
 
 # Access Grafana
-echo "Open http://localhost:3000 (admin/admin)"
-echo "Import the dashboard JSON"
-echo "Wait for the simulation cycle (25 minutes) to see full data"
-echo "Take screenshots at key moments"
+echo "Open http://localhost:3000"
+echo "Login: admin / admin123"
+echo "Dashboard is auto-loaded - 'DentalHelp Auto-Scaling Overview'"
+echo "Wait for scenario duration to capture full cycle"
 ```
 
 ---
 
-## 4. Method 2: Online Chart Tools
+## 5. Method 2: Online Chart Tools
 
 ### Using Chart.js Playground (Quick Method)
 
@@ -415,7 +386,7 @@ T+20    35      4           285             0.2           100
 
 ---
 
-## 5. Method 3: Presentation Screenshots
+## 6. Method 3: Presentation Screenshots
 
 ### Creating Mock Grafana Panels in PowerPoint/Slides
 
@@ -456,42 +427,6 @@ T+20    35      4           285             0.2           100
 - Red (critical): #F2495C
 - Blue (info): #5794F2
 - Purple (replicas): #B877D9
-
----
-
-## 6. Method 4: Docker-Based Demo Environment
-
-### Complete Demo Stack
-
-Use the existing `docker-compose.monitoring.yml` from the project:
-
-```bash
-# Start full monitoring stack
-cd /home/user/DentHelpForTeachers
-docker-compose -f docker-compose.monitoring.yml up -d
-
-# Generate load with k6 to get real metrics
-docker run --rm -i --network=host grafana/k6 run - <<EOF
-import http from 'k6/http';
-import { sleep, check } from 'k6';
-
-export const options = {
-  stages: [
-    { duration: '2m', target: 50 },
-    { duration: '3m', target: 200 },
-    { duration: '2m', target: 400 },
-    { duration: '3m', target: 200 },
-    { duration: '2m', target: 50 },
-  ],
-};
-
-export default function () {
-  const res = http.get('http://localhost:8080/api/health');
-  check(res, { 'status is 200': (r) => r.status === 200 });
-  sleep(1);
-}
-EOF
-```
 
 ---
 
@@ -619,6 +554,9 @@ EOF
 
 ## 8. Ready-to-Use Mockup Data
 
+> **Note**: The `mock-monitoring/` Docker stack generates all this data automatically.
+> These examples are provided for reference and manual chart creation.
+
 ### 8.1 k6 Output Simulation
 
 ```
@@ -704,7 +642,49 @@ histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
 
 ---
 
-## 9. Summary: Best Practices for Mock Visualizations
+## 9. Screenshot Guide
+
+### Recommended Screenshots for Documentation
+
+Take these screenshots to demonstrate your understanding of auto-scaling:
+
+#### For 100 Users (Smoke Test)
+1. Dashboard overview at peak load (after 6 min)
+2. CPU staying below threshold (~45%)
+3. Replicas stable at minimum (2-3)
+
+#### For 1,000 Users (Load Test)
+1. Dashboard overview showing scaling in action
+2. CPU crossing 70% threshold
+3. Replicas scaling from 2 to 4-5
+4. Response time graph
+
+#### For 10,000 Users (Stress Test)
+1. Full dashboard at peak stress
+2. CPU at 85-95%
+3. Maximum replicas reached
+4. Error rate spike and recovery
+5. Response time degradation and recovery after scaling
+
+#### Screenshot Tips
+
+1. **Set time range**: Use "Last 15 minutes" or custom range
+2. **Use dashboard refresh**: Set auto-refresh to 5s during test
+3. **Capture key moments**:
+   - Before scaling (baseline)
+   - During scaling (transition)
+   - After scaling (stabilized)
+4. **Include annotations**: Add text explaining what's happening
+
+### Labeling Screenshots
+
+When using in documentation, add captions like:
+- "Figure 1: HPA scaling response during 1000-user load test (simulated data)"
+- "Figure 2: CPU utilization triggering scale-out at 70% threshold"
+
+---
+
+## 10. Summary: Best Practices for Mock Visualizations
 
 ### Do's
 
@@ -713,6 +693,7 @@ histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
 - ✅ Show the correlation between decisions and metrics
 - ✅ Include timestamps and context
 - ✅ Reference source documentation (load testing results)
+- ✅ Use the `mock-monitoring/` Docker stack for consistent results
 
 ### Don'ts
 
@@ -724,18 +705,43 @@ histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
 ### Quick Reference Commands
 
 ```bash
-# Start mock monitoring
-docker-compose -f docker-compose.mockdata.yml up -d
+# Navigate to mock-monitoring directory
+cd mock-monitoring
+
+# Start mock monitoring (100 users default)
+docker-compose up -d
+
+# Start with specific scenario
+SCENARIO=1000_users docker-compose up -d
+SCENARIO=10000_users docker-compose up -d
 
 # Access Grafana
 open http://localhost:3000
+# Login: admin / admin123
+
+# View logs
+docker-compose logs -f metrics-generator
 
 # Stop mock monitoring
-docker-compose -f docker-compose.mockdata.yml down
+docker-compose down
+
+# Restart with different scenario
+docker-compose down && SCENARIO=stress_test docker-compose up -d
 ```
+
+### Files Reference
+
+| File | Purpose |
+|------|---------|
+| `mock-monitoring/docker-compose.yml` | Main orchestration |
+| `mock-monitoring/metrics-generator/metrics_generator.py` | Metrics simulation |
+| `mock-monitoring/grafana/provisioning/dashboards/dentalhelp-overview.json` | Pre-built dashboard |
+| `mock-monitoring/prometheus/prometheus.yml` | Prometheus config |
+| `mock-monitoring/README.md` | Detailed documentation |
 
 ---
 
-**Document Version**: 1.0
+**Document Version**: 2.0
 **Last Updated**: December 14, 2025
 **Purpose**: Academic demonstration and portfolio presentation
+**Related**: See `mock-monitoring/README.md` for detailed Docker stack documentation
